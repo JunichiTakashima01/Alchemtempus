@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
+    Animator anim;
 
     //Facing
     public int facingDirection = 0; // right is 1, left is -1
@@ -38,11 +39,13 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         jumpRemaining = 0;
+        anim= GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
     {
         rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+        anim.SetFloat("speed", rb.linearVelocity.x);
         GroundCheck();
         Gravity();
         CheckFacingDirection();
