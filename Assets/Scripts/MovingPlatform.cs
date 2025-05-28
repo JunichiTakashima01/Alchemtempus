@@ -7,7 +7,6 @@ public class MovingPlatform : MonoBehaviour
     public float moveSpeed = 2f;
     public Vector3 nextPosition;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    // testing
     void Start()
     {
         nextPosition = pointA.position;

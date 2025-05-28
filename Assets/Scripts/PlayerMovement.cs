@@ -6,20 +6,35 @@ public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
 
+    //Facing
     public int facingDirection = 0; // right is 1, left is -1
-    public float moveSpeed = 5f;
 
+    //Movement
+    public float moveSpeed = 5f;
+    public float horizontalMovement;
+
+    //Jump
     public float jumpPower = 10f;
     public int maxJumps = 2;
     private int jumpRemaining;
 
+    //Gravity
+    public float baseGravity = 2f;
+    public float fallSpeedMultiplier = 2f;
+    public float maxFallSpeed = 18f;
+
+    //GroundCheck
     public Transform groundCheckPos;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
-    public float horizontalMovement;
+
+    //Flash
+    public float flashDistance = 5f;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public float flashDistance = 5f;
+
     void Start()
     {
         jumpRemaining = 0;
@@ -29,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
         GroundCheck();
+        Gravity();
         CheckFacingDirection();
     }
     public void Move(InputAction.CallbackContext context)
@@ -45,6 +61,19 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
                 jumpRemaining--;
             }
+        }
+    }
+
+    public void Gravity()
+    {
+        if (rb.linearVelocity.y < 0)
+        {
+            rb.gravityScale = baseGravity * fallSpeedMultiplier;
+            rb.linearVelocityY = Mathf.Max(rb.linearVelocityY, -maxFallSpeed);
+        }
+        else
+        {
+            rb.gravityScale = baseGravity;
         }
     }
 
