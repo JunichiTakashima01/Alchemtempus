@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("speed", Mathf.Abs(rb.linearVelocity.x));
         GroundCheck();
         Gravity();
+        CheckFacingDirection();
     }
     public void Move(InputAction.CallbackContext context)
     {
