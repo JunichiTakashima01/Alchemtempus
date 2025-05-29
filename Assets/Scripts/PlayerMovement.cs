@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     Animator anim;
 
     //Facing
-    public int facingDirection = 0; // right is 1, left is -1
+    public int facingDirection = 1; // right is 1, left is -1
 
     //Movement
     public float moveSpeed = 5f;
@@ -45,14 +45,21 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
-        anim.SetFloat("speed", rb.linearVelocity.x);
+        anim.SetFloat("speed", Mathf.Abs(rb.linearVelocity.x));
         GroundCheck();
         Gravity();
-        CheckFacingDirection();
     }
     public void Move(InputAction.CallbackContext context)
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
+        if (horizontalMovement < 0)
+        {
+            facingDirection = -1;
+        }
+        else if (horizontalMovement > 0)
+        {
+            facingDirection = 1;
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -109,19 +116,21 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
     }
 
+<<<<<<< HEAD
     private void CheckFacingDirection()
     {
-        if (rb.linearVelocity.x > 0)
+        if (horizontalMovement > 0)
         {
             facingDirection = 1;
+            transform.localScale = new Vector3(1, 1, 1); // 
         }
-        else if (rb.linearVelocity.x < 0)
+        else if (horizontalMovement < 0)
         {
             facingDirection = -1;
-        }
-        else
-        {
-            facingDirection = 0;
+            transform.localScale = new Vector3(-1, 1, 1); // 
         }
     }
+=======
+    
+>>>>>>> 38a344a09c9266cb99425503a212098f5646b3cc
 }
