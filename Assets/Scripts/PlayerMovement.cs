@@ -116,8 +116,7 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     private void CheckFacingDirection()
     {
         if (horizontalMovement > 0)
@@ -131,10 +130,5 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1); // 
         }
     }
-=======
-    
->>>>>>> 38a344a09c9266cb99425503a212098f5646b3cc
-=======
-    
->>>>>>> 38a344a09c9266cb99425503a212098f5646b3cc
+
 }
