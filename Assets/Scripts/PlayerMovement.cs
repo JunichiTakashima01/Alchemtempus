@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     Animator anim;
 
     //Facing
-    public int facingDirection = 0; // right is 1, left is -1
+    public int facingDirection = 1; // right is 1, left is -1
 
     //Movement
     public float moveSpeed = 5f;
@@ -48,11 +48,18 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("speed", rb.linearVelocity.x);
         GroundCheck();
         Gravity();
-        CheckFacingDirection();
     }
     public void Move(InputAction.CallbackContext context)
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
+        if (horizontalMovement < 0)
+        {
+            facingDirection = -1;
+        }
+        else if (horizontalMovement > 0)
+        {
+            facingDirection = 1;
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -109,19 +116,5 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
     }
 
-    private void CheckFacingDirection()
-    {
-        if (rb.linearVelocity.x > 0)
-        {
-            facingDirection = 1;
-        }
-        else if (rb.linearVelocity.x < 0)
-        {
-            facingDirection = -1;
-        }
-        else
-        {
-            facingDirection = 0;
-        }
-    }
+    
 }
