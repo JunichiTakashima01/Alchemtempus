@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     Animator anim;
 
     //Facing
-    public int facingDirection = 1; // right is 1, left is -1
+    public float facingDirection = 1f; // right is 1, left is -1
 
     //Movement
     public float moveSpeed = 5f;
@@ -34,6 +35,14 @@ public class PlayerMovement : MonoBehaviour
     //Flash
     public float flashDistance = 5f;
 
+    //Dashing
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.25f;
+    public float dashCooldown = 0.5f;
+    private bool isDashing;
+    private bool canDash = true;
+    private TrailRenderer trailRenderer;
+
     //Animator parameter
     private bool isGrounded;
 
@@ -45,26 +54,35 @@ public class PlayerMovement : MonoBehaviour
     {
         jumpRemaining = 0;
         anim = GetComponent<Animator>();
+        trailRenderer = GetComponent<TrailRenderer>();
     }
     // Update is called once per frame
     void Update()
     {
-        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
         anim.SetFloat("speed", Mathf.Abs(rb.linearVelocity.x));
+
         GroundCheck();
+
+        if (isDashing)
+        {
+            return; //if dashing, stop other movements
+        }
+
         Flip();
         Gravity();
+
+        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
     }
     public void Move(InputAction.CallbackContext context)
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
         if (horizontalMovement < 0)
         {
-            facingDirection = -1;
+            facingDirection = -1f;
         }
         else if (horizontalMovement > 0)
         {
-            facingDirection = 1;
+            facingDirection = 1f;
         }
     }
 
@@ -103,6 +121,33 @@ public class PlayerMovement : MonoBehaviour
                 this.transform.position += deltaPos;
             }
         }
+    }
+
+    public void Dash(InputAction.CallbackContext context)
+    {
+        if (context.performed && canDash)
+        {
+            StartCoroutine(DashCoroutine());
+        }
+    }
+
+    private IEnumerator DashCoroutine()
+    {
+        canDash = false;
+        isDashing = true;
+        trailRenderer.emitting = true;
+
+        rb.linearVelocityX = facingDirection * dashSpeed;
+
+        yield return new WaitForSeconds(dashDuration);
+
+        rb.linearVelocityX = 0f;
+
+        isDashing = false;
+        trailRenderer.emitting = false;
+
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
 
     private void GroundCheck()
