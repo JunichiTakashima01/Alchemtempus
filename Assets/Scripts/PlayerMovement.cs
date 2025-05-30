@@ -156,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
         anim.SetBool("ground", isGrounded);
 
-        if (Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer))
+        if (isGrounded)
         {
             if (rb.linearVelocity.y < 0)
             {

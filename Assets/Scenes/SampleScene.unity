@@ -369,7 +369,7 @@ Transform:
   m_GameObject: {fileID: 275636630}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.7, y: 3.28, z: 0}
+  m_LocalPosition: {x: 2.1, y: 16.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -471,7 +471,7 @@ MonoBehaviour:
   fallSpeedMultiplier: 1.8
   maxFallSpeed: 15
   groundCheckPos: {fileID: 2130880252}
-  groundCheckSize: {x: 0.7, y: 0.05}
+  groundCheckSize: {x: 0.7, y: 0.1}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -1181,7 +1181,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.7, y: 3.28, z: -10}
+  m_LocalPosition: {x: 2.1, y: 16.35, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3856,7 +3856,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1495511768239427260, guid: 6a5a9cc78739fa24dab53ae4f3596aae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.09
+      value: 8.65
       objectReference: {fileID: 0}
     - target: {fileID: 1495511768239427260, guid: 6a5a9cc78739fa24dab53ae4f3596aae, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4285,7 +4285,7 @@ Transform:
   m_GameObject: {fileID: 861271087}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.7, y: 3.28, z: -10}
+  m_LocalPosition: {x: 2.1, y: 16.35, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5103,6 +5103,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moving Platform T
       objectReference: {fileID: 0}
+    - target: {fileID: 1263538682796156191, guid: 6a5a9cc78739fa24dab53ae4f3596aae, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1338737467229306785, guid: 6a5a9cc78739fa24dab53ae4f3596aae, type: 3}
       propertyPath: m_Icon
       value: 
@@ -5481,7 +5485,7 @@ Transform:
   m_GameObject: {fileID: 2130880251}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0, y: -1.499, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5560,6 +5564,10 @@ PrefabInstance:
     - target: {fileID: 8041473242080772424, guid: 6d76791e3ecf7994689291d88d46393c, type: 3}
       propertyPath: m_Name
       value: Moving Platform
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041473242080772424, guid: 6d76791e3ecf7994689291d88d46393c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
