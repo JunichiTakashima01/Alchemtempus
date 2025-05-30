@@ -55,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         jumpRemaining = 0;
         anim = GetComponent<Animator>();
         trailRenderer = GetComponent<TrailRenderer>();
+        trailRenderer.emitting = false;
     }
     // Update is called once per frame
     void Update()
