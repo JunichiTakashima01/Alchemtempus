@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     //Jump
     public float jumpPower = 10f;
     public int maxJumps = 2;
-    private int jumpRemaining;
+    private int jumpRemaining = 0;
 
     //Gravity
     public float baseGravity = 2f;
@@ -38,9 +38,11 @@ public class PlayerMovement : MonoBehaviour
     //Dashing
     public float dashSpeed = 20f;
     public float dashDuration = 0.25f;
-    public float dashCooldown = 0.5f;
+    public float dashCooldown = 0.05f;
     private bool isDashing;
     private bool canDash = true;
+    public int maxDashes = 2;
+    private int DashRemaining = 0;
     private TrailRenderer trailRenderer;
 
     //Animator parameter
@@ -52,7 +54,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        jumpRemaining = 0;
         anim = GetComponent<Animator>();
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false;
@@ -126,9 +127,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Dash(InputAction.CallbackContext context)
     {
-        if (context.performed && canDash)
+        if (DashRemaining > 0 && context.performed && canDash)
         {
             StartCoroutine(DashCoroutine());
+            DashRemaining--;
         }
     }
 
@@ -161,6 +163,7 @@ public class PlayerMovement : MonoBehaviour
             if (rb.linearVelocity.y < 0)
             {
                 jumpRemaining = maxJumps;
+                DashRemaining = maxDashes;
             }
         }
     }

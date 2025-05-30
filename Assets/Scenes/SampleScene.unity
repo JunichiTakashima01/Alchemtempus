@@ -471,7 +471,7 @@ MonoBehaviour:
   fallSpeedMultiplier: 1.8
   maxFallSpeed: 15
   groundCheckPos: {fileID: 2130880252}
-  groundCheckSize: {x: 0.7, y: 0.1}
+  groundCheckSize: {x: 0.7, y: 0.05}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -479,7 +479,8 @@ MonoBehaviour:
   flashDistance: 1
   dashSpeed: 20
   dashDuration: 0.25
-  dashCooldown: 0.5
+  dashCooldown: 0.05
+  maxDashs: 2
 --- !u!114 &275636636
 MonoBehaviour:
   m_ObjectHideFlags: 0
