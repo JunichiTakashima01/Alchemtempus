@@ -34,6 +34,12 @@ public class PlayerMovement : MonoBehaviour
     //Flash
     public float flashDistance = 5f;
 
+<<<<<<< HEAD
+    //Animator parameter
+    private bool isGrounded;
+
+=======
+>>>>>>> 86ae3873ac6b3df6a8e4bc3f5f46db78a1b589ec
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -104,6 +110,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void GroundCheck()
     {
+        isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
+        anim.SetBool("ground", isGrounded);
+
         if (Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer))
         {
             if (rb.linearVelocity.y < 0)
@@ -128,4 +137,10 @@ public class PlayerMovement : MonoBehaviour
             this.transform.localScale = ls;
         }
     }
+<<<<<<< HEAD
+
+
+
+=======
+>>>>>>> 86ae3873ac6b3df6a8e4bc3f5f46db78a1b589ec
 }
