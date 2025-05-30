@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer))
         {
-            if (rb.linearVelocity.y == 0)
+            if (rb.linearVelocity.y < 0)
             {
                 jumpRemaining = maxJumps;
             }
