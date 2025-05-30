@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,13 +29,17 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheckPos;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
+    public bool isOnGround = false;
 
     //Flash
     public float flashDistance = 5f;
 
+<<<<<<< HEAD
     //Animator parameter
     private bool isGrounded;
 
+=======
+>>>>>>> 86ae3873ac6b3df6a8e4bc3f5f46db78a1b589ec
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -42,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         jumpRemaining = 0;
-        anim= GetComponent<Animator>();
+        anim = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
@@ -50,8 +55,8 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
         anim.SetFloat("speed", Mathf.Abs(rb.linearVelocity.x));
         GroundCheck();
+        Flip();
         Gravity();
-        CheckFacingDirection();
     }
     public void Move(InputAction.CallbackContext context)
     {
@@ -123,21 +128,19 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
     }
 
-
-    private void CheckFacingDirection()
+    public void Flip()
     {
-        if (horizontalMovement > 0)
+        if ((facingDirection == -1 && this.transform.localScale.x > 0) || (facingDirection == 1 && this.transform.localScale.x < 0))
         {
-            facingDirection = 1;
-            transform.localScale = new Vector3(1, 1, 1); // 
-        }
-        else if (horizontalMovement < 0)
-        {
-            facingDirection = -1;
-            transform.localScale = new Vector3(-1, 1, 1); // 
+            Vector3 ls = this.transform.localScale;
+            ls.x *= -1f;
+            this.transform.localScale = ls;
         }
     }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 86ae3873ac6b3df6a8e4bc3f5f46db78a1b589ec
 }
