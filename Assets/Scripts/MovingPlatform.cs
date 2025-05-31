@@ -23,19 +23,20 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        //Debug.Log(collider.gameObject.tag);
+        if (collider.gameObject.CompareTag("PlayerGroundCheck"))
         {
-            collision.gameObject.transform.parent = this.transform;
+            collider.gameObject.transform.parent.parent = this.transform;
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    void OnTriggerExit2D(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collider.gameObject.CompareTag("PlayerGroundCheck"))
         {
-            collision.gameObject.transform.parent = null;
+            collider.gameObject.transform.parent.parent = null;
         }
     }
 }

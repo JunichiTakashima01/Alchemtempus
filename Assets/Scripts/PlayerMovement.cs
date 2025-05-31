@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("HorizontalVelocity", Mathf.Abs(rb.linearVelocity.x));
         anim.SetFloat("VerticalVelocity", Mathf.Abs(rb.linearVelocity.y));   
         anim.SetBool("isMoving", isMoving);
+        anim.SetBool("ground", isGrounded);
 
         GroundCheck();
 
@@ -165,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
     private void GroundCheck()
     {
         isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
-        anim.SetBool("ground", isGrounded);
+        
 
         if (isGrounded)
         {
