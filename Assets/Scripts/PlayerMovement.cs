@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     //Movement
     public float moveSpeed = 5f;
     public float horizontalMovement;
+    public bool isMoving = false;
 
     //Jump
     public float jumpPower = 10f;
@@ -61,7 +62,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        anim.SetFloat("speed", Mathf.Abs(rb.linearVelocity.x));
+        anim.SetFloat("HorizontalVelocity", Mathf.Abs(rb.linearVelocity.x));
+        anim.SetFloat("VerticalVelocity", Mathf.Abs(rb.linearVelocity.y));   
+        anim.SetBool("isMoving", isMoving);
 
         GroundCheck();
 
@@ -73,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         Flip();
         Gravity();
 
-        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y); //control movement
     }
     public void Move(InputAction.CallbackContext context)
     {
@@ -81,10 +84,16 @@ public class PlayerMovement : MonoBehaviour
         if (horizontalMovement < 0)
         {
             facingDirection = -1f;
+            isMoving = true;
         }
         else if (horizontalMovement > 0)
         {
             facingDirection = 1f;
+            isMoving = true;
+        }
+        if (horizontalMovement == 0)
+        {
+            isMoving = false;
         }
     }
 
