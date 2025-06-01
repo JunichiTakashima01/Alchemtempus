@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Gem : MonoBehaviour, IItem
 {
-    public void Collect()
+    public virtual void Collect()
     {
         Destroy(this.gameObject);
     }

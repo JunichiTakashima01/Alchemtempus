@@ -58,7 +58,14 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false;
+        TripleJumpGem.OnTripleJumpCollected += ChangeMaxJumpsInTheAir;
     }
+
+    void ChangeMaxJumpsInTheAir(int maxJumpsInTheAir)
+    {
+        maxJumps = maxJumpsInTheAir;
+    }
+
     // Update is called once per frame
     void Update()
     {
