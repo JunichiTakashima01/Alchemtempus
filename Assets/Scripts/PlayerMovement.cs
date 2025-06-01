@@ -23,8 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private int jumpRemaining = 0;
 
     //Gravity
-    public float baseGravity = 2f;
-    public float fallSpeedMultiplier = 2f;
+    public float baseGravity = 1.8f;
+    public float fallSpeedMultiplier = 1.8f;
     public float maxFallSpeed = 18f;
 
     //GroundCheck
@@ -76,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("dash", isDashing);
 
         GroundCheck();
+        Gravity();
 
         if (isDashing)
         {
@@ -83,7 +84,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Flip();
-        Gravity();
 
         rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y); //control movement
     }
@@ -159,10 +159,15 @@ public class PlayerMovement : MonoBehaviour
         trailRenderer.emitting = true;
 
         rb.linearVelocityX = facingDirection * dashSpeed;
+        float originalGravity = baseGravity;
+        baseGravity = 0f;
+        rb.linearVelocityY = 0f;
+
 
         yield return new WaitForSeconds(dashDuration);
 
         rb.linearVelocityX = 0f;
+        baseGravity = originalGravity;
 
         isDashing = false;
         trailRenderer.emitting = false;
