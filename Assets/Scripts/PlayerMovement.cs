@@ -178,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded)
         {
-            if (rb.linearVelocity.y < 0)
+            if (rb.linearVelocity.y <= 0)
             {
                 jumpRemaining = maxJumps;
                 DashRemaining = maxDashes;
