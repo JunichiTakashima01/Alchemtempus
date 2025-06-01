@@ -66,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("VerticalVelocity", Mathf.Abs(rb.linearVelocity.y));   
         anim.SetBool("isMoving", isMoving);
         anim.SetBool("ground", isGrounded);
+        anim.SetBool("dash", isDashing);
 
         GroundCheck();
 
