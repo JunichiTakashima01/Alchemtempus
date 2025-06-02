@@ -6,7 +6,9 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public Vector3 playerTransformPosition = new Vector3(0, 0, 0);
+    private Vector3 playerSpawnTransformPosition = new Vector3(0, 0, 0);
+    private Vector3 playerBaseScale = new Vector3(1, 1, 1);
+
     Animator anim;
 
     //Facing
@@ -29,10 +31,10 @@ public class PlayerMovement : MonoBehaviour
     public float maxFallSpeed = 18f;
 
     //GroundCheck
-    public Transform groundCheckPos;
-    public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
-    public LayerMask groundLayer;
-    public bool isOnGround = false;
+    private bool isGrounded;
+    // public Transform groundCheckPos;
+    // public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
+    // public LayerMask groundLayer;
 
     //Flash
     public float flashDistance = 5f;
@@ -47,8 +49,11 @@ public class PlayerMovement : MonoBehaviour
     private int DashRemaining = 0;
     private TrailRenderer trailRenderer;
 
+    //Gem Effect
+    private float growLargeDuration = 5f; //unit = second
+    private Coroutine growLargeCoroutine = null;
+
     //Animator parameter
-    private bool isGrounded;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -61,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         trailRenderer.emitting = false;
         TripleJumpGem.OnTripleJumpCollected += ChangeMaxJumpsInTheAir;
         GrowLargeGem.OnGrowLargeCollected += ChangePlayerScale;
+        GroundCheckCollider.OnTouchingGround += SetIsGrounded;
     }
 
     private void ChangeMaxJumpsInTheAir(int maxJumpsInTheAir)
@@ -70,7 +76,33 @@ public class PlayerMovement : MonoBehaviour
 
     private void ChangePlayerScale(float scaleAdditionner)
     {
+        if (growLargeCoroutine == null)
+        {
+            growLargeCoroutine = StartCoroutine(GrowLargeCoroutine(scaleAdditionner));
+        }
+        else
+        {
+            StopCoroutine(growLargeCoroutine);
+            growLargeCoroutine = StartCoroutine(GrowLargeCoroutine(scaleAdditionner * 0.1f)); //if already grown large, grow large by a tiny bit
+        }
+    }
+
+    private IEnumerator GrowLargeCoroutine(float scaleAdditionner)
+    {
+        this.transform.position = this.transform.position + new Vector3(0, scaleAdditionner * 0.5f, 0);
+
         this.transform.localScale = this.transform.localScale + new Vector3(scaleAdditionner, scaleAdditionner, 0);
+        yield return new WaitForSeconds(growLargeDuration);
+
+        this.transform.position = this.transform.position - new Vector3(0, (this.transform.position.y - playerBaseScale.y) * 0.5f, 0);
+
+        this.transform.localScale = playerBaseScale;
+        growLargeCoroutine = null;
+    }
+
+    private void SetIsGrounded(bool isGrounded)
+    {
+        this.isGrounded = isGrounded;
     }
 
     // Update is called once per frame
@@ -186,8 +218,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GroundCheck()
     {
-        isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
-
+        //isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
 
         if (isGrounded)
         {
@@ -199,11 +230,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
-    }
+
 
     public void Flip()
     {
@@ -225,9 +252,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void TeleportToSpawn()
     {
-        this.transform.position = playerTransformPosition;
+        this.transform.position = playerSpawnTransformPosition;
     }
 
 
 
+    // private void OnDrawGizmosSelected()
+    // {
+    //     Gizmos.color = Color.white;
+    //     Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
+    // }
 }
