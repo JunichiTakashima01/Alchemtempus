@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public Vector3 playerTransformPosition = new Vector3(0, 0, 0);
     Animator anim;
 
     //Facing
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private int jumpRemaining = 0;
 
     //Gravity
+    private float originalGravity = 1.8f;
     public float baseGravity = 1.8f;
     public float fallSpeedMultiplier = 1.8f;
     public float maxFallSpeed = 18f;
@@ -70,13 +72,14 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         anim.SetFloat("HorizontalVelocity", Mathf.Abs(rb.linearVelocity.x));
-        anim.SetFloat("VerticalVelocity", Mathf.Abs(rb.linearVelocity.y));   
+        anim.SetFloat("VerticalVelocity", Mathf.Abs(rb.linearVelocity.y));
         anim.SetBool("isMoving", isMoving);
         anim.SetBool("ground", isGrounded);
         anim.SetBool("dash", isDashing);
 
         GroundCheck();
         Gravity();
+        CheckDropIntoAbyss();
 
         if (isDashing)
         {
@@ -114,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
                 jumpRemaining--;
+                baseGravity = originalGravity;
             }
         }
     }
@@ -159,7 +163,6 @@ public class PlayerMovement : MonoBehaviour
         trailRenderer.emitting = true;
 
         rb.linearVelocityX = facingDirection * dashSpeed;
-        float originalGravity = baseGravity;
         baseGravity = 0f;
         rb.linearVelocityY = 0f;
 
@@ -179,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
     private void GroundCheck()
     {
         isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
-        
+
 
         if (isGrounded)
         {
@@ -205,6 +208,19 @@ public class PlayerMovement : MonoBehaviour
             ls.x *= -1f;
             this.transform.localScale = ls;
         }
+    }
+
+    private void CheckDropIntoAbyss()
+    {
+        if (this.transform.position.y < -20f)
+        {
+            TeleportToSpawn();
+        }
+    }
+
+    public void TeleportToSpawn()
+    {
+        this.transform.position = playerTransformPosition;
     }
 
 
