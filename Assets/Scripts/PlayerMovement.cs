@@ -60,11 +60,17 @@ public class PlayerMovement : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false;
         TripleJumpGem.OnTripleJumpCollected += ChangeMaxJumpsInTheAir;
+        GrowLargeGem.OnGrowLargeCollected += ChangePlayerScale;
     }
 
-    void ChangeMaxJumpsInTheAir(int maxJumpsInTheAir)
+    private void ChangeMaxJumpsInTheAir(int maxJumpsInTheAir)
     {
         maxJumps = maxJumpsInTheAir;
+    }
+
+    private void ChangePlayerScale(float scaleAdditionner)
+    {
+        this.transform.localScale = this.transform.localScale + new Vector3(scaleAdditionner, scaleAdditionner, 0);
     }
 
     // Update is called once per frame
