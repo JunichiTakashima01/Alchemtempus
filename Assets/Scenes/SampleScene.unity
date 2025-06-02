@@ -292,6 +292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 268663707}
   - component: {fileID: 268663708}
+  - component: {fileID: 268663709}
   m_Layer: 6
   m_Name: GroundCheckCollisionBox
   m_TagString: PlayerGroundCheck
@@ -360,6 +361,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.14307117}
   m_EdgeRadius: 0
+--- !u!114 &268663709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268663706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6d7b8359ca58b4b848e940e8342688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &275636630
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +556,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 275636634}
-  playerTransformPosition: {x: 0, y: 0, z: 0}
   facingDirection: 0
   moveSpeed: 5
   horizontalMovement: 0
@@ -553,12 +565,6 @@ MonoBehaviour:
   baseGravity: 1.8
   fallSpeedMultiplier: 1.8
   maxFallSpeed: 15
-  groundCheckPos: {fileID: 2130880252}
-  groundCheckSize: {x: 0.7, y: 0.1}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  isOnGround: 0
   flashDistance: 1
   dashSpeed: 20
   dashDuration: 0.25
