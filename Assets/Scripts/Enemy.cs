@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded;
     private bool shouldJump;
-    private bool isJumping;
+    //private bool isJumping;
     private float LengthFromCenterToBottom;
     private float LengthFromCenterToSide;
 
@@ -44,24 +44,29 @@ public class Enemy : MonoBehaviour
         float direction = Mathf.Sign(player.position.x - this.transform.position.x);
 
         //Player Above?
-        bool isPlayerAbove = Physics2D.Raycast(this.transform.position, Vector2.up, LengthFromCenterToBottom + 3f, 1 << player.gameObject.layer); // 1 << player.gameObject.layer provides the layermask of player object
+        //bool isPlayerAbove = Physics2D.Raycast(this.transform.position, Vector2.up, LengthFromCenterToBottom + 3f, 1 << player.gameObject.layer); // 1 << player.gameObject.layer provides the layermask of player object
+        bool isPlayerAbove = player.position.y > (this.transform.position.y + LengthFromCenterToBottom);
+        bool isPlayerBelow = player.position.y < (this.transform.position.y - LengthFromCenterToBottom);
 
+        rb.linearVelocityX = direction * chaseSpeed;
         if (isGrounded)
         {
-            //Chase Player
-            rb.linearVelocityX = direction * chaseSpeed;
 
             //Jump if there is a gap ahead and no ground in front
             //else if there is plaver above and platform above
 
             //If ground in front (blocking enemy from moving forward)
-            RaycastHit2D groundInFront = Physics2D.Raycast(this.transform.position, new Vector2(direction, 0), LengthFromCenterToSide + 0.2f, groundLayer);
+            bool groundInFront = Physics2D.Raycast(this.transform.position, new Vector2(direction, 0), LengthFromCenterToSide + 0.2f, groundLayer) || Physics2D.Raycast(this.transform.position + new Vector3(0, LengthFromCenterToBottom * 0.5f, 0), new Vector2(direction, 0), LengthFromCenterToSide + 0.2f, groundLayer);
             //If gap ahead
             RaycastHit2D groundAhead = Physics2D.Raycast(this.transform.position + new Vector3(direction * LengthFromCenterToSide, 0, 0), Vector2.down, LengthFromCenterToBottom + 0.05f, groundLayer);
-            //If platform above
+            //If platform above directly
             RaycastHit2D platformAbove = Physics2D.Raycast(this.transform.position, Vector2.up, LengthFromCenterToBottom + 2f, groundLayer);
 
-            if (!groundInFront && !groundAhead) //Indicate a gap ahead
+            if (!isPlayerBelow && !groundInFront && !groundAhead) //Indicate a gap ahead
+            {
+                shouldJump = true;
+            }
+            else if (!isPlayerBelow && groundInFront)//obstacle in front
             {
                 shouldJump = true;
             }
@@ -69,12 +74,6 @@ public class Enemy : MonoBehaviour
             {
                 shouldJump = true;
             }
-            bool a = groundInFront;
-            Debug.Log("Front " + a);
-            a = groundAhead;
-            Debug.Log("Ahead "+a);
-            a = platformAbove;
-            Debug.Log("Plat "+a);
         }
 
         //Decide whether to jump
@@ -84,8 +83,8 @@ public class Enemy : MonoBehaviour
             Vector2 jumpDirection = jumpForce * (player.position - this.transform.position).normalized;
 
             //isJumping = true;
-            //rb.AddForce(new Vector2(jumpDirection.x, jumpForce), ForceMode2D.Impulse);
-            rb.linearVelocityY = jumpForce;
+            rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            //rb.linearVelocityY = jumpForce;
         }
     }
 }
