@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4710946591811227289}
   m_Layer: 7
   m_Name: Moving Platform T
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 5064962416991364326}
   m_Layer: 7
   m_Name: Moving Platform
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

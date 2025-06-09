@@ -1442,7 +1442,7 @@ GameObject:
   - component: {fileID: 675669359}
   m_Layer: 7
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8054,7 +8054,7 @@ GameObject:
   - component: {fileID: 695399793}
   m_Layer: 7
   m_Name: Static Platforms
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8625,7 +8625,7 @@ GameObject:
   - component: {fileID: 849596277}
   m_Layer: 7
   m_Name: Platforms
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10423,7 +10423,7 @@ GameObject:
   - component: {fileID: 1973798164}
   m_Layer: 0
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

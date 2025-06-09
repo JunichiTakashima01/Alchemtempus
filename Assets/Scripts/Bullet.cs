@@ -1,3 +1,4 @@
+using System.Data.Common;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -9,7 +10,7 @@ public class Bullet : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        DestroyBullet();
+        DestroyBulletAfterLiveTime();
     }
 
 
@@ -21,10 +22,14 @@ public class Bullet : MonoBehaviour
             enemy.takeDamage(bulletDamage, bulletKnockBackDistance);
             Destroy(this.gameObject);
         }
+        if (collision.CompareTag("Ground"))
+        {
+            Destroy(this.gameObject);
+        }
     }
 
 
-        private void DestroyBullet()
+        private void DestroyBulletAfterLiveTime()
     {
         Destroy(this.gameObject, bulletLiveTime); //Destroy after bulletLiveTime seconds
     }
