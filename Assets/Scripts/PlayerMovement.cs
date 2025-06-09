@@ -68,11 +68,6 @@ public class PlayerMovement : MonoBehaviour
         TripleJumpGem.OnTripleJumpCollected += ChangeMaxJumpsInTheAir;
         GrowLargeGem.OnGrowLargeCollected += ChangePlayerScale;
         GroundCheckCollider.OnTouchingGround += SetIsGrounded;
-        var p1 = gameObject.transform.TransformPoint(0, 0, 0);
-        var p2 = gameObject.transform.TransformPoint(1, 1, 0);
-        var w = p2.x - p1.x;
-        var h = p2.y - p1.y;
-        Debug.Log(w+" "+h);
     }
 
     private void ChangeMaxJumpsInTheAir(int maxJumpsInTheAir)

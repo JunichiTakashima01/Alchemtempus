@@ -1,3 +1,5 @@
+using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -13,6 +15,12 @@ public class Enemy : MonoBehaviour
     //private bool isJumping;
     private float LengthFromCenterToBottom;
     private float LengthFromCenterToSide;
+    private float direction;
+
+    private float maxHealth = 5;
+    private float currHealth;
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,7 +28,11 @@ public class Enemy : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
 
         LengthFromCenterToBottom = this.GetComponent<BoxCollider2D>().size.y / 2f;
-        LengthFromCenterToSide =  this.GetComponent<BoxCollider2D>().size.x / 2f;
+        LengthFromCenterToSide = this.GetComponent<BoxCollider2D>().size.x / 2f;
+
+        currHealth = maxHealth;
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
     }
 
     // Update is called once per frame
@@ -41,7 +53,7 @@ public class Enemy : MonoBehaviour
         }
 
         //Player Direction?
-        float direction = Mathf.Sign(player.position.x - this.transform.position.x);
+        direction = Mathf.Sign(player.position.x - this.transform.position.x);
 
         //Player Above?
         //bool isPlayerAbove = Physics2D.Raycast(this.transform.position, Vector2.up, LengthFromCenterToBottom + 3f, 1 << player.gameObject.layer); // 1 << player.gameObject.layer provides the layermask of player object
@@ -86,5 +98,29 @@ public class Enemy : MonoBehaviour
             rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             //rb.linearVelocityY = jumpForce;
         }
+
+    }
+
+    public void takeDamage(float dmg, float knockBackDistance = 0f)
+    {
+        currHealth -= dmg;
+        StartCoroutine(FlashWhite());
+        if (currHealth <= 0)
+        {
+            DestroyEnemy();
+        }
+        this.transform.position -= new Vector3(direction * knockBackDistance, 0, 0);
+    }
+
+    private IEnumerator FlashWhite()
+    {
+        spriteRenderer.color = Color.white;
+        yield return new WaitForSeconds(0.2f);
+        spriteRenderer.color = originalColor;
+    }
+
+    private void DestroyEnemy()
+    {
+        Destroy(this.gameObject);
     }
 }
