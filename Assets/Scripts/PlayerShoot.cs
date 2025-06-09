@@ -22,6 +22,7 @@ public class PlayerShoot : MonoBehaviour
         if (context.started)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
+            mousePosition.z = 0;
 
             Vector3 shootDirection = (mousePosition - this.transform.position).normalized;
 
