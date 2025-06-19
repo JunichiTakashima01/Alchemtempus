@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     public float jumpForce;
     public LayerMask groundLayer;
 
+    private float enemyDetectingSight = 9;
+
     private Rigidbody2D rb;
     private bool isGrounded;
     private bool shouldJump;
@@ -60,45 +62,47 @@ public class Enemy : MonoBehaviour
         bool isPlayerAbove = player.position.y > (this.transform.position.y + LengthFromCenterToBottom);
         bool isPlayerBelow = player.position.y < (this.transform.position.y - LengthFromCenterToBottom);
 
-        rb.linearVelocityX = direction * chaseSpeed;
-        if (isGrounded)
+        if (enemyDetectingSight > Vector3.Distance(player.position, this.transform.position))// if too far the enemy can't see player thus no movement.
         {
-
-            //Jump if there is a gap ahead and no ground in front
-            //else if there is plaver above and platform above
-
-            //If ground in front (blocking enemy from moving forward)
-            bool groundInFront = Physics2D.Raycast(this.transform.position, new Vector2(direction, 0), LengthFromCenterToSide + 0.2f, groundLayer) || Physics2D.Raycast(this.transform.position + new Vector3(0, LengthFromCenterToBottom * 0.5f, 0), new Vector2(direction, 0), LengthFromCenterToSide + 0.2f, groundLayer);
-            //If gap ahead
-            RaycastHit2D groundAhead = Physics2D.Raycast(this.transform.position + new Vector3(direction * LengthFromCenterToSide, 0, 0), Vector2.down, LengthFromCenterToBottom + 0.05f, groundLayer);
-            //If platform above directly
-            RaycastHit2D platformAbove = Physics2D.Raycast(this.transform.position, Vector2.up, LengthFromCenterToBottom + 2f, groundLayer);
-
-            if (!isPlayerBelow && !groundInFront && !groundAhead) //Indicate a gap ahead
+            rb.linearVelocityX = direction * chaseSpeed;
+            if (isGrounded)
             {
-                shouldJump = true;
+
+                //Jump if there is a gap ahead and no ground in front
+                //else if there is plaver above and platform above
+
+                //If ground in front (blocking enemy from moving forward)
+                bool groundInFront = Physics2D.Raycast(this.transform.position, new Vector2(direction, 0), LengthFromCenterToSide + 0.2f, groundLayer) || Physics2D.Raycast(this.transform.position + new Vector3(0, LengthFromCenterToBottom * 0.5f, 0), new Vector2(direction, 0), LengthFromCenterToSide + 0.2f, groundLayer);
+                //If gap ahead
+                RaycastHit2D groundAhead = Physics2D.Raycast(this.transform.position + new Vector3(direction * LengthFromCenterToSide, 0, 0), Vector2.down, LengthFromCenterToBottom + 0.05f, groundLayer);
+                //If platform above directly
+                RaycastHit2D platformAbove = Physics2D.Raycast(this.transform.position, Vector2.up, LengthFromCenterToBottom + 2f, groundLayer);
+
+                if (!isPlayerBelow && !groundInFront && !groundAhead) //Indicate a gap ahead
+                {
+                    shouldJump = true;
+                }
+                else if (!isPlayerBelow && groundInFront)//obstacle in front
+                {
+                    shouldJump = true;
+                }
+                else if (isPlayerAbove && platformAbove)//Player at the platform above
+                {
+                    shouldJump = true;
+                }
             }
-            else if (!isPlayerBelow && groundInFront)//obstacle in front
+
+            //Decide whether to jump
+            if (isGrounded && shouldJump)
             {
-                shouldJump = true;
-            }
-            else if (isPlayerAbove && platformAbove)//Player at the platform above
-            {
-                shouldJump = true;
+                shouldJump = false;
+                Vector2 jumpDirection = jumpForce * (player.position - this.transform.position).normalized;
+
+                //isJumping = true;
+                rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                //rb.linearVelocityY = jumpForce;
             }
         }
-
-        //Decide whether to jump
-        if (isGrounded && shouldJump)
-        {
-            shouldJump = false;
-            Vector2 jumpDirection = jumpForce * (player.position - this.transform.position).normalized;
-
-            //isJumping = true;
-            rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            //rb.linearVelocityY = jumpForce;
-        }
-
     }
 
     public void takeDamage(float dmg, float knockBackDistance = 0f)
