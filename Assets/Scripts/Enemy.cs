@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public Transform player; //for this enemy object to chase
+    private Transform player; //for this enemy object to chase
     public float chaseSpeed;
     public float jumpForce;
     public LayerMask groundLayer;
@@ -27,6 +27,8 @@ public class Enemy : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        player = GameObject.Find("Player").transform;
+
         rb = this.GetComponent<Rigidbody2D>();
 
         LengthFromCenterToBottom = this.GetComponent<BoxCollider2D>().size.y / 2f;
