@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public Collider collider;
+    public BoxCollider2D collider;
     private Vector3 playerSpawnTransformPosition = new Vector3(0, 0, 0);
     private Vector3 playerBaseScale = new Vector3(1, 1, 1);
 
@@ -65,6 +65,8 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false;
+        collider = GetComponent<BoxCollider2D>();
+
         TripleJumpGem.OnTripleJumpCollected += ChangeMaxJumpsInTheAir;
         GrowLargeGem.OnGrowLargeCollected += ChangePlayerScale;
         GroundCheckCollider.OnTouchingGround += SetIsGrounded;
@@ -211,6 +213,22 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
+    }
+
+    public void Drop(InputAction.CallbackContext context)
+    {
+        if (isGrounded && context.performed)
+        {
+            collider.isTrigger = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collider2D)
+    {
+        if (!collider2D.IsTouching(collider) && collider2D.CompareTag("Ground"))
+        {
+            collider.isTrigger = false;
+        }
     }
 
     private void GroundCheck()
