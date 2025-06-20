@@ -103,7 +103,7 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(flashDelay);
         //turn half transparent to show invulnerability
         Color currColor = ogColor;
-        currColor.a = 0.5f;
+        currColor.a = 0.5f; // Change alpha value to half transparent
         spriteRenderer.color = currColor;
     }
 }
