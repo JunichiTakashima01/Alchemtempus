@@ -25,16 +25,16 @@ public class HealthBarUI : MonoBehaviour
 
     public void SetHealthFiller(float currHealth, float maxHealth)
     {
-        setHealthBarText(currHealth, maxHealth);
+        setCurrAndMaxHealth(currHealth, maxHealth);
 
-        this.currHealth = currHealth;
-        this.maxHealth = maxHealth;
         float newWidth = currHealth / maxHealth * healthFrameRectTransform.rect.width;
 
         healthFillerRectTransform.sizeDelta = new Vector2(newWidth, healthFillerRectTransform.rect.height);
     }
 
-    private void setHealthBarText(float currHealth, float maxHealth) {
+    private void setHealthBarText(float currHealth, float maxHealth)
+    {
         healthBarText.text = currHealth + " / " + maxHealth;
     }
+
 }

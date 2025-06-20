@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public static event Action OnPlayerZeroHealth;
+
     private float currHealth;
     private float maxHealth = 15;
     public HealthBarUI healthBarUI;
@@ -52,7 +54,7 @@ public class PlayerHealth : MonoBehaviour
             if (currHealth <= 0)
             {
                 currHealth = 0;
-                //player pause
+                OnPlayerZeroHealth.Invoke();
             }
 
             healthBarUI.SetHealthFiller(currHealth, maxHealth);
