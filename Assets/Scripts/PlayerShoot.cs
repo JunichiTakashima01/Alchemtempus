@@ -6,20 +6,21 @@ public class PlayerShoot : MonoBehaviour
     public GameObject bulletPrefab;
     public float bulletSpeed;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private bool gamePaused = false;
+
+    void Awake()
     {
+        GameController.OnGamePausedChangePauseStatus += SetGamePauseStatus;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SetGamePauseStatus(bool gamePaused)
     {
-
+        this.gamePaused = gamePaused;
     }
     
     public void Shoot(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !gamePaused)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
             mousePosition.z = 0;
@@ -28,8 +29,6 @@ public class PlayerShoot : MonoBehaviour
 
             GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity);
             bullet.GetComponent<Rigidbody2D>().linearVelocity = shootDirection * bulletSpeed;
-
-
         }
     }
 }

@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
 
     Animator anim;
 
+    //If the game is paused
+    private bool gamePaused = false;
+
     //Facing
     public float facingDirection = 1f; // right is 1, left is -1
 
@@ -70,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         TripleJumpGem.OnTripleJumpCollected += ChangeMaxJumpsInTheAir;
         GrowLargeGem.OnGrowLargeCollected += ChangePlayerScale;
         GroundCheckCollider.OnTouchingGround += SetIsGrounded;
+        GameController.OnGamePausedChangePauseStatus += SetGamePauseStatus;
     }
 
     private void ChangeMaxJumpsInTheAir(int maxJumpsInTheAir)
@@ -107,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //On game paused this script will be disabled and update method won't be called.
         anim.SetFloat("HorizontalVelocity", Mathf.Abs(rb.linearVelocity.x));
         anim.SetFloat("VerticalVelocity", Mathf.Abs(rb.linearVelocity.y));
         anim.SetBool("isMoving", isMoving);
@@ -131,12 +136,10 @@ public class PlayerMovement : MonoBehaviour
         horizontalMovement = context.ReadValue<Vector2>().x;
         if (horizontalMovement < 0)
         {
-            facingDirection = -1f;
             isMoving = true;
         }
         else if (horizontalMovement > 0)
         {
-            facingDirection = 1f;
             isMoving = true;
         }
         if (horizontalMovement == 0)
@@ -147,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (jumpRemaining > 0)
+        if (jumpRemaining > 0 && !gamePaused)
         {
             if (context.performed)
             {
@@ -158,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void Gravity()
+    public void Gravity() //will be called in update method
     {
         if (rb.linearVelocity.y < 0)
         {
@@ -173,7 +176,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Flash(InputAction.CallbackContext context)
     {
-        if (facingDirection != 0)
+        if (facingDirection != 0 && !gamePaused)
         {
             if (context.performed)
             {
@@ -185,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Dash(InputAction.CallbackContext context)
     {
-        if (DashRemaining > 0 && context.performed && canDash)
+        if (DashRemaining > 0 && context.performed && canDash && !gamePaused)
         {
             StartCoroutine(DashCoroutine());
             DashRemaining--;
@@ -217,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Drop(InputAction.CallbackContext context)
     {
-        if (isGrounded && context.performed)
+        if (isGrounded && context.performed && !gamePaused)
         {
             collider.isTrigger = true;
         }
@@ -231,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void GroundCheck()
+    private void GroundCheck() //will be called in update method
     {
         //isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
 
@@ -247,8 +250,17 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    public void Flip()
+    public void Flip() //will be called in update method
     {
+        if (horizontalMovement < 0)
+        {
+            facingDirection = -1f;
+        }
+        else if (horizontalMovement > 0)
+        {
+            facingDirection = 1f;
+        }
+
         if ((facingDirection == -1 && this.transform.localScale.x > 0) || (facingDirection == 1 && this.transform.localScale.x < 0))
         {
             Vector3 ls = this.transform.localScale;
@@ -257,7 +269,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckDropIntoAbyss()
+    private void CheckDropIntoAbyss()//will be called in update method
     {
         if (this.transform.position.y < -20f)
         {
@@ -268,6 +280,19 @@ public class PlayerMovement : MonoBehaviour
     public void TeleportToSpawn()
     {
         this.transform.position = playerSpawnTransformPosition;
+    }
+
+    private void SetGamePauseStatus(bool gamePaused)
+    {
+        this.gamePaused = gamePaused;
+        if (gamePaused)
+        {
+            this.GetComponent<PlayerMovement>().enabled = false; //disable update and fixedupdate when game is paused
+        }
+        else
+        {
+            this.GetComponent<PlayerMovement>().enabled = true; //enable update and fixedupdate when game is resumed   
+        }     
     }
 
 
