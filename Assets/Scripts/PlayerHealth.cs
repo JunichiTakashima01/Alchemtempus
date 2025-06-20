@@ -19,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
     private List<Enemy> enemies = new List<Enemy>();
 
     private SpriteRenderer spriteRenderer;
+    Color ogColor;
     private float flashDelay = 0.2f; //0.2s
 
 
@@ -31,6 +32,7 @@ public class PlayerHealth : MonoBehaviour
         healthBarUI.setCurrAndMaxHealth(currHealth, maxHealth);
 
         spriteRenderer = this.GetComponent<SpriteRenderer>();
+        ogColor = spriteRenderer.color;
     }
 
     //Update is called once per frame
@@ -90,6 +92,8 @@ public class PlayerHealth : MonoBehaviour
         ableToTakeDamage = false;
         yield return new WaitForSeconds(takeDamageCoolDown);
         ableToTakeDamage = true;
+
+        spriteRenderer.color = ogColor;
     }
 
     private IEnumerator FlashColor(Color color)
@@ -97,6 +101,9 @@ public class PlayerHealth : MonoBehaviour
         Color ogColor = spriteRenderer.color;
         spriteRenderer.color = color;
         yield return new WaitForSeconds(flashDelay);
-        spriteRenderer.color = ogColor;
+        //turn half transparent to show invulnerability
+        Color currColor = ogColor;
+        currColor.a = 0.5f;
+        spriteRenderer.color = currColor;
     }
 }
