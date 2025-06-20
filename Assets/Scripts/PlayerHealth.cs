@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
@@ -6,6 +9,18 @@ public class PlayerHealth : MonoBehaviour
     private float currHealth;
     private float maxHealth = 15;
     public HealthBarUI healthBarUI;
+    public float takeDamageCoolDown = 1f; //1s invulnerable if taken damage
+
+    private bool ableToTakeDamage = true;
+
+    private int enemyColliding = 0;
+    private List<Enemy> enemies = new List<Enemy>();
+
+    private SpriteRenderer spriteRenderer;
+    private float flashDelay = 0.2f; //0.2s
+
+
+    //private Coroutine takeDamageCDCoroutine = null;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -13,25 +28,38 @@ public class PlayerHealth : MonoBehaviour
         currHealth = maxHealth;
         healthBarUI.setCurrAndMaxHealth(currHealth, maxHealth);
 
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-
-    // }
+    //Update is called once per frame
+    void Update()
+    {
+        if (ableToTakeDamage && enemyColliding > 0)
+        {
+            foreach (Enemy enemy in enemies)
+            {
+                TakeDamage(enemy.damage);
+            }
+        }
+    }
 
     public void TakeDamage(float damage)
     {
-        currHealth -= damage;
-
-        if (currHealth <= 0)
+        if (ableToTakeDamage)
         {
-            currHealth = 0;
-            //player pause
-        }
+            currHealth -= damage;
 
-        healthBarUI.SetHealthFiller(currHealth, maxHealth);
+            if (currHealth <= 0)
+            {
+                currHealth = 0;
+                //player pause
+            }
+
+            healthBarUI.SetHealthFiller(currHealth, maxHealth);
+
+            StartCoroutine(FlashColor(Color.red));
+            StartCoroutine(TakeDamageCD());
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -39,7 +67,34 @@ public class PlayerHealth : MonoBehaviour
         Enemy enemy = collision.gameObject.GetComponent<Enemy>();
         if (enemy != null)
         {
+            enemyColliding += 1;
+            enemies.Add(enemy);
             TakeDamage(enemy.damage);
         }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            enemies.Remove(enemy);
+            enemyColliding -= 1;
+        }
+    }
+
+    private IEnumerator TakeDamageCD()
+    {
+        ableToTakeDamage = false;
+        yield return new WaitForSeconds(takeDamageCoolDown);
+        ableToTakeDamage = true;
+    }
+
+    private IEnumerator FlashColor(Color color)
+    {
+        Color ogColor = spriteRenderer.color;
+        spriteRenderer.color = color;
+        yield return new WaitForSeconds(flashDelay);
+        spriteRenderer.color = ogColor;
     }
 }
