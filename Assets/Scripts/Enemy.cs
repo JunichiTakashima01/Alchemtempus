@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     public float jumpForce;
     public LayerMask groundLayer;
 
+    public float damage = 1;
+
     private float enemyDetectingSight = 9;
 
     private Rigidbody2D rb;
