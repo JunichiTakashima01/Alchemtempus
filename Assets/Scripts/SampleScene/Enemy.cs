@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -28,6 +29,8 @@ public class Enemy : MonoBehaviour
     private float currHealth;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
+
+    public static event Action OnEnemyKilled;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -166,6 +169,7 @@ public class Enemy : MonoBehaviour
 
     private void DestroyEnemy()
     {
+        OnEnemyKilled.Invoke();
         Destroy(this.gameObject);
     }
 }
