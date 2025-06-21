@@ -104,7 +104,15 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator GrowLargeCoroutine(float scaleAdditionner)
     {
-        this.transform.localScale = this.transform.localScale + new Vector3(scaleAdditionner, scaleAdditionner, 0);
+        if (this.transform.localScale.x < 0)
+        {
+            this.transform.localScale = this.transform.localScale + new Vector3(-scaleAdditionner, scaleAdditionner, 0);
+        }
+        else
+        {
+            this.transform.localScale = this.transform.localScale + new Vector3(scaleAdditionner, scaleAdditionner, 0);
+        }
+        
         yield return new WaitForSeconds(growLargeDuration);
 
         this.transform.localScale = playerBaseScale;
