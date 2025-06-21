@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
     private void GameOverScreen()
     {
         gameOverScene.SetActive(true);
+        pauseButtonGameObject.SetActive(false);
         OnGamePausedChangePauseStatus.Invoke(true);
         Time.timeScale = 0;
     }
