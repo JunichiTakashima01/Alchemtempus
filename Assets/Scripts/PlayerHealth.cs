@@ -25,6 +25,11 @@ public class PlayerHealth : MonoBehaviour
 
     //private Coroutine takeDamageCDCoroutine = null;
 
+
+    void Awake()
+    {
+        PlayerMovement.OnDropping += ResetEnemyCollidingCount;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,6 +50,11 @@ public class PlayerHealth : MonoBehaviour
                 TakeDamage(enemy.damage);
             }
         }
+    }
+
+    void Oestroy()
+    {
+        PlayerMovement.OnDropping -= ResetEnemyCollidingCount;   
     }
 
     public void TakeDamage(float damage)
@@ -105,5 +115,10 @@ public class PlayerHealth : MonoBehaviour
         Color currColor = ogColor;
         currColor.a = 0.5f; // Change alpha value to half transparent
         spriteRenderer.color = currColor;
+    }
+
+    private void ResetEnemyCollidingCount()
+    {
+        enemyColliding = 0;
     }
 }

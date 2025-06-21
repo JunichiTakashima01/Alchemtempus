@@ -180,4 +180,4 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  damage: 10
+  damage: 2

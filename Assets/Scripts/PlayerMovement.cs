@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -57,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     private float growLargeDuration = 5f; //unit = second
     private Coroutine growLargeCoroutine = null;
 
-    //Animator parameter
+    public static event Action OnDropping;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -240,6 +241,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded && context.performed && !gamePaused)
         {
             collider.isTrigger = true;
+            OnDropping.Invoke();
         }
     }
 
