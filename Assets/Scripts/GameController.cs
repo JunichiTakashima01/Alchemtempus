@@ -10,7 +10,6 @@ public class GameController : MonoBehaviour
     public GameObject pauseButtonGameObject;
 
     public static event Action<bool> OnGamePausedChangePauseStatus;
-    public static event Action<bool> OnMouseEnterUIStatus;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,6 +17,11 @@ public class GameController : MonoBehaviour
         gameOverScene.SetActive(false);
         pauseGameScene.SetActive(false);
         PlayerHealth.OnPlayerZeroHealth += GameOverScreen;
+    }
+
+    void OnDestroy()
+    {
+        PlayerHealth.OnPlayerZeroHealth -= GameOverScreen;
     }
 
     private void GameOverScreen()

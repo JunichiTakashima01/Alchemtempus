@@ -9,10 +9,16 @@ public class PlayerShoot : MonoBehaviour
 
     private bool gamePaused = false;
 
-    void Awake()
+    void Start()
     {
         GameController.OnGamePausedChangePauseStatus += SetGamePauseStatus;
         PauseButtonMouseDetect.OnMouseEnterUIStatus += SetCanShoot;
+    }
+
+    void OnDestroy()
+    {
+        GameController.OnGamePausedChangePauseStatus -= SetGamePauseStatus;
+        PauseButtonMouseDetect.OnMouseEnterUIStatus -= SetCanShoot;
     }
 
     private void SetGamePauseStatus(bool gamePaused)

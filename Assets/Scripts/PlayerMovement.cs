@@ -76,6 +76,14 @@ public class PlayerMovement : MonoBehaviour
         GameController.OnGamePausedChangePauseStatus += SetGamePauseStatus;
     }
 
+    void OnDestroy()
+    {
+        TripleJumpGem.OnTripleJumpCollected -= ChangeMaxJumpsInTheAir;
+        GrowLargeGem.OnGrowLargeCollected -= ChangePlayerScale;
+        GroundCheckCollider.OnTouchingGround -= SetIsGrounded;
+        GameController.OnGamePausedChangePauseStatus -= SetGamePauseStatus;
+    }
+
     private void ChangeMaxJumpsInTheAir(int maxJumpsInTheAir)
     {
         maxJumps = maxJumpsInTheAir;
