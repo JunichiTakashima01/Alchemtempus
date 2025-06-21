@@ -57,12 +57,17 @@ public class PlayerHealth : MonoBehaviour
         PlayerMovement.OnDropping -= ResetEnemyCollidingCount;   
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, float knockBackDistance = 0f, float bulletVelocity = 0f)
     {
         if (ableToTakeDamage)
         {
             currHealth -= damage;
 
+            if (knockBackDistance != 0f)
+            {
+                float direction = Mathf.Sign(bulletVelocity);
+                this.transform.position += new Vector3(direction * knockBackDistance, 0, 0);
+            }
             if (currHealth <= 0)
             {
                 currHealth = 0;
