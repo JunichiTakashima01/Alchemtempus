@@ -1,5 +1,3 @@
-some platform will let playe drop
-
 --------------------------------------------------------------
 fixed:
 --------------------------------------------------------------
@@ -9,3 +7,5 @@ cant die 2nd time
 Grow large will be skinny large
 gameover screen can use pause to resume (dont forget about mouse hover issue)
 Keep getting hit even no enemy contact (when getting hit while drop from platform)
+some platform will let playe drop
+
