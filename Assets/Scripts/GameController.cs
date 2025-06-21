@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public GameObject pauseButtonGameObject;
 
     public static event Action<bool> OnGamePausedChangePauseStatus;
+    public static event Action<bool> OnMouseEnterUIStatus;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,7 +26,7 @@ public class GameController : MonoBehaviour
         OnGamePausedChangePauseStatus.Invoke(true);
         Time.timeScale = 0;
     }
-    
+
     public void RestartGame()
     {
         OnGamePausedChangePauseStatus.Invoke(false);

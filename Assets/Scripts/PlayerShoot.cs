@@ -5,22 +5,29 @@ public class PlayerShoot : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public float bulletSpeed;
+    public bool canShoot = true; //if mouse on UI (button) then cannot shoot.
 
     private bool gamePaused = false;
 
     void Awake()
     {
         GameController.OnGamePausedChangePauseStatus += SetGamePauseStatus;
+        PauseButtonMouseDetect.OnMouseEnterUIStatus += SetCanShoot;
     }
 
     private void SetGamePauseStatus(bool gamePaused)
     {
         this.gamePaused = gamePaused;
     }
-    
+
+    private void SetCanShoot(bool mouseInUI)
+    {
+        this.canShoot = !mouseInUI; //If mouse on button then cannot shoot
+    }
+
     public void Shoot(InputAction.CallbackContext context)
     {
-        if (context.started && !gamePaused)
+        if (context.started && !gamePaused && canShoot)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
             mousePosition.z = 0;

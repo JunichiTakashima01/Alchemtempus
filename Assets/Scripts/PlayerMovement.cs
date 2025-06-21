@@ -111,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gamePaused) return;
         //On game paused this script will be disabled and update method won't be called.
         anim.SetFloat("HorizontalVelocity", Mathf.Abs(rb.linearVelocity.x));
         anim.SetFloat("VerticalVelocity", Mathf.Abs(rb.linearVelocity.y));
@@ -285,14 +286,14 @@ public class PlayerMovement : MonoBehaviour
     private void SetGamePauseStatus(bool gamePaused)
     {
         this.gamePaused = gamePaused;
-        if (gamePaused)
-        {
-            this.GetComponent<PlayerMovement>().enabled = false; //disable update and fixedupdate when game is paused
-        }
-        else
-        {
-            this.GetComponent<PlayerMovement>().enabled = true; //enable update and fixedupdate when game is resumed   
-        }     
+        // if (gamePaused)
+        // {
+        //     this.GetComponent<PlayerMovement>().enabled = false; //disable update and fixedupdate when game is paused
+        // }
+        // else
+        // {
+        //     this.GetComponent<PlayerMovement>().enabled = true; //enable update and fixedupdate when game is resumed   
+        // }     
     }
 
 

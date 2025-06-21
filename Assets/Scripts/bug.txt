@@ -1,0 +1,6 @@
+Grow large will be skinny large
+not landing but able to refresh jump time(almost cross the platform from below)
+cant die 2nd time
+some platform will let playe drop
+
+Keep getting hit even no enemy contact (when getting hit while drop from platform)
