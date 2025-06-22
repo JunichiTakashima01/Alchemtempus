@@ -79,6 +79,7 @@ public class PlayerMana : MonoBehaviour
         if (isInPerfectParryTimeInterval)
         {
             UseMana(-perfectParryManaReturnFactor * damageBlocked * ManaUsedForEachDamageBlocked);
+            shield.ResetCoolDown(); //Reset cooldown if perfect parry.
         }
     }
 

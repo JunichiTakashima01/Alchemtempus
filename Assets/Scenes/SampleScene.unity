@@ -1221,6 +1221,7 @@ GameObject:
   - component: {fileID: 275636640}
   - component: {fileID: 275636641}
   - component: {fileID: 275636642}
+  - component: {fileID: 275636643}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1743,6 +1744,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarUI: {fileID: 1052069770}
   takeDamageCoolDown: 1
+  ShieldedDamageCoolDown: 0.4
+--- !u!114 &275636643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275636630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9faeeb21139c9f34290d465cd76d08f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMana: 1000
+  manaBarUI: {fileID: 1591794588}
+  shield: {fileID: 1845263889}
+  perfectParryTime: 0.2
+  perfectParryManaReturnFactor: 1.4
+  ManaUsedForEachDamageBlocked: 50
+  ManaUsedForShielding: 0
+  whenShieldingManaDrainedEachSecond: 50
+  whenShieldingManaDrainFrequency: 2
 --- !u!1001 &290736653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13666,7 +13689,7 @@ GameObject:
   - component: {fileID: 1591794587}
   - component: {fileID: 1591794586}
   - component: {fileID: 1591794585}
-  - component: {fileID: 1591794584}
+  - component: {fileID: 1591794588}
   m_Layer: 5
   m_Name: ManaBarFrame
   m_TagString: Untagged
@@ -13695,20 +13718,6 @@ RectTransform:
   m_AnchoredPosition: {x: 26.999928, y: -57.176422}
   m_SizeDelta: {x: 400, y: 20}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &1591794584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591794582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5daefdc1c6c12c448a4457a2729ab3af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthFillerRectTransform: {fileID: 2085526825}
-  healthBarText: {fileID: 450568030}
 --- !u!114 &1591794585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13762,6 +13771,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591794582}
   m_CullTransparentMesh: 1
+--- !u!114 &1591794588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591794582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8728d03fb16de00458d205108ebc397c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manaFillerRectTransform: {fileID: 2085526825}
+  manaBarText: {fileID: 450568030}
 --- !u!1 &1597965664
 GameObject:
   m_ObjectHideFlags: 0
@@ -14734,6 +14757,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23665a15fbc02a64391f90854e85a0e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMana: {fileID: 275636643}
+  shieldCoolDown: 1
 --- !u!4 &1867481432 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1901028351632706465, guid: c72a868283da502408bde3771795ce40, type: 3}

@@ -8,6 +8,8 @@ public class Shield : MonoBehaviour
 
     private bool canShield = true;
 
+    private Coroutine shieldCoolDownCoroutine = null;
+
     void Awake()
     {
     }
@@ -30,8 +32,8 @@ public class Shield : MonoBehaviour
         {
             this.GetComponent<CircleCollider2D>().enabled = true;
             this.GetComponent<SpriteRenderer>().enabled = true;
-            StartCoroutine(ShieldCoolDownCoroutine(shieldCoolDown));
-            
+            shieldCoolDownCoroutine = StartCoroutine(ShieldCoolDownCoroutine(shieldCoolDown));
+
             return true;
         }
         return false;
@@ -47,6 +49,12 @@ public class Shield : MonoBehaviour
     {
         canShield = false;
         yield return new WaitForSeconds(shieldCoolDown);
+        canShield = true;
+    }
+
+    public void ResetCoolDown()
+    {
+        StopCoroutine(shieldCoolDownCoroutine);
         canShield = true;
     }
 }
