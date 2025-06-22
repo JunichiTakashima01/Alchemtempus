@@ -8,8 +8,8 @@ public class HealthBarUI : MonoBehaviour
     private RectTransform healthFrameRectTransform;
     public TMP_Text healthBarText;
 
-    private float maxHealth = 1;
-    private float currHealth = 1;
+    private float maxHealth;
+    private float currHealth;
 
     void Start()
     {

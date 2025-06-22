@@ -12,8 +12,10 @@ public class PlayerHealth : MonoBehaviour
     private float maxHealth = 15;
     public HealthBarUI healthBarUI;
     public float takeDamageCoolDown = 1f; //1s invulnerable if taken damage
+    public float ShieldedDamageCoolDown = 0.4f;
 
     private bool ableToTakeDamage = true;
+    private bool isShielding = false;
 
     private int enemyColliding = 0;
     private List<Enemy> enemies = new List<Enemy>();
@@ -40,6 +42,11 @@ public class PlayerHealth : MonoBehaviour
         ogColor = spriteRenderer.color;
     }
 
+    void OnDestroy()
+    {
+        PlayerMovement.OnDropping -= ResetEnemyCollidingCount;
+    }
+
     //Update is called once per frame
     void Update()
     {
@@ -52,27 +59,37 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    void Oestroy()
-    {
-        PlayerMovement.OnDropping -= ResetEnemyCollidingCount;   
-    }
 
-    public void TakeDamage(float damage)
+
+    public void TakeDamage(float damage, float knockBackDistance = 0f, float bulletVelocity = 0f)
     {
         if (ableToTakeDamage)
         {
-            currHealth -= damage;
-
-            if (currHealth <= 0)
+            if (!isShielding)
             {
-                currHealth = 0;
-                OnPlayerZeroHealth.Invoke();
+                currHealth -= damage;
+
+                if (knockBackDistance != 0f)
+                {
+                    float direction = Mathf.Sign(bulletVelocity);
+                    this.transform.position += new Vector3(direction * knockBackDistance, 0, 0);
+                }
+                if (currHealth <= 0)
+                {
+                    currHealth = 0;
+                    OnPlayerZeroHealth.Invoke();
+                }
+
+                healthBarUI.SetHealthFiller(currHealth, maxHealth);
+
+                StartCoroutine(FlashColor(Color.red));
+                StartCoroutine(TakeDamageCD(ShieldedDamageCoolDown));
             }
-
-            healthBarUI.SetHealthFiller(currHealth, maxHealth);
-
-            StartCoroutine(FlashColor(Color.red));
-            StartCoroutine(TakeDamageCD());
+            else
+            {
+                this.GetComponent<PlayerMana>().ShieldDmg(damage);
+                StartCoroutine(TakeDamageCD(takeDamageCoolDown * 0.4f));
+            }
         }
     }
 
@@ -97,10 +114,10 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private IEnumerator TakeDamageCD()
+    private IEnumerator TakeDamageCD(float cd)
     {
         ableToTakeDamage = false;
-        yield return new WaitForSeconds(takeDamageCoolDown);
+        yield return new WaitForSeconds(cd);
         ableToTakeDamage = true;
 
         spriteRenderer.color = ogColor;
@@ -120,5 +137,10 @@ public class PlayerHealth : MonoBehaviour
     private void ResetEnemyCollidingCount()
     {
         enemyColliding = 0;
+    }
+
+    public void OnShielding(bool shielding)
+    {
+        isShielding = shielding;
     }
 }

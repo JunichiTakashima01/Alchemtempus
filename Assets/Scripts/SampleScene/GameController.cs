@@ -1,5 +1,6 @@
 //using UnityEditor.SearchService;
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,11 @@ public class GameController : MonoBehaviour
     public GameObject gameOverScene;
     public GameObject pauseGameScene;
     public GameObject pauseButtonGameObject;
+    public GameObject winGameScene;
+
+    public TMP_Text enemyRemainingText;
+    public int enemyMaxCount = 42;
+    private int enemyRemaining;
 
     public static event Action<bool> OnGamePausedChangePauseStatus;
 
@@ -16,12 +22,40 @@ public class GameController : MonoBehaviour
     {
         gameOverScene.SetActive(false);
         pauseGameScene.SetActive(false);
+        winGameScene.SetActive(false);
+
         PlayerHealth.OnPlayerZeroHealth += GameOverScreen;
+
+        Enemy.OnEnemyKilled += OnEnemyKilled;
+        enemyRemaining = enemyMaxCount;
+        SetEnemyRemainingText();
     }
 
     void OnDestroy()
     {
         PlayerHealth.OnPlayerZeroHealth -= GameOverScreen;
+        Enemy.OnEnemyKilled -= OnEnemyKilled;
+    }
+
+    private void OnEnemyKilled()
+    {
+        enemyRemaining -= 1;
+        if (enemyRemaining <= 0)
+        {
+            enemyRemaining = 0;
+            WinGame();
+        }
+        SetEnemyRemainingText();
+    }
+
+    private void SetEnemyRemainingText()
+    {
+        enemyRemainingText.text = "Enemy Remaining: " + enemyRemaining + " / " + enemyMaxCount;
+    }
+
+    public void WinGame()
+    {
+        winGameScene.SetActive(true);
     }
 
     private void GameOverScreen()

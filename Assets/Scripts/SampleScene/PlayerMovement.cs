@@ -245,6 +245,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void Parry(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            this.GetComponent<PlayerMana>().StartShield();
+        }
+        else if (context.canceled)
+        {
+            this.GetComponent<PlayerMana>().StopShield();
+        }
+    }
+
     void OnTriggerExit2D(Collider2D collider2D)
     {
         if (!collider2D.IsTouching(collider) && collider2D.CompareTag("Ground"))
