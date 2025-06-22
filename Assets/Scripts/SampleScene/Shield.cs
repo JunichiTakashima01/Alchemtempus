@@ -7,7 +7,7 @@ public class Shield : MonoBehaviour
     public float shieldCoolDown = 1f;
 
     private bool canShield = true;
-    
+
     void Awake()
     {
     }
@@ -24,7 +24,7 @@ public class Shield : MonoBehaviour
     }
 
     // Update is called once per frame
-    public bool StartShield()
+    public bool StartShield() // return true if shielding
     {
         if (canShield)
         {
