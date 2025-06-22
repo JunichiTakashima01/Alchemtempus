@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
+    public PlayerMana playerMana;
+
     void Awake()
     {
     }
@@ -10,6 +12,11 @@ public class Shield : MonoBehaviour
     {
         this.GetComponent<CircleCollider2D>().enabled = false;
         this.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    public void ShieldDamage(float damage)
+    {
+        playerMana.ShieldDmg(damage);
     }
 
     // Update is called once per frame

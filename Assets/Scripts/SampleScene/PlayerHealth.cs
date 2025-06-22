@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     private float maxHealth = 15;
     public HealthBarUI healthBarUI;
     public float takeDamageCoolDown = 1f; //1s invulnerable if taken damage
+    public float ShieldedDamageCoolDown = 0.4f;
 
     private bool ableToTakeDamage = true;
     private bool isShielding = false;
@@ -82,7 +83,12 @@ public class PlayerHealth : MonoBehaviour
                 healthBarUI.SetHealthFiller(currHealth, maxHealth);
 
                 StartCoroutine(FlashColor(Color.red));
-                StartCoroutine(TakeDamageCD());
+                StartCoroutine(TakeDamageCD(ShieldedDamageCoolDown));
+            }
+            else
+            {
+                this.GetComponent<PlayerMana>().ShieldDmg(damage);
+                StartCoroutine(TakeDamageCD(takeDamageCoolDown * 0.4f));
             }
         }
     }
@@ -108,10 +114,10 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private IEnumerator TakeDamageCD()
+    private IEnumerator TakeDamageCD(float cd)
     {
         ableToTakeDamage = false;
-        yield return new WaitForSeconds(takeDamageCoolDown);
+        yield return new WaitForSeconds(cd);
         ableToTakeDamage = true;
 
         spriteRenderer.color = ogColor;

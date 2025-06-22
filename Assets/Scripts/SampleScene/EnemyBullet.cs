@@ -17,6 +17,7 @@ public class EnemyBullet : MonoBehaviour
         if (collision.CompareTag("Shield"))
         {
             Destroy(this.gameObject);
+            collision.GetComponent<Shield>().ShieldDamage(bulletDamage);
         }
         if (collision.CompareTag("Player"))
         {

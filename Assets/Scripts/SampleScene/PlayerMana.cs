@@ -7,6 +7,8 @@ public class PlayerMana : MonoBehaviour
     public ManaBarUI manaBarUI;
     public Shield shield;
 
+    public float ManaUsedForEachDamageBlocked = 50;
+
 
     void Awake()
     {
@@ -36,5 +38,10 @@ public class PlayerMana : MonoBehaviour
     {
         this.GetComponent<PlayerHealth>().OnShielding(false);
         shield.ToggleShield(false);
+    }
+
+    public void ShieldDmg(float damageBlocked)
+    {
+        currMana -= damageBlocked * ManaUsedForEachDamageBlocked;
     }
 }
