@@ -29,15 +29,17 @@ public class PlayerMana : MonoBehaviour
 
     public void StartShield()
     {
-        UseMana(50);
-        this.GetComponent<PlayerHealth>().OnShielding(true);
-        shield.ToggleShield(true);
+        if (shield.StartShield()) //if the shield uses successfully
+        {
+            UseMana(50);
+            this.GetComponent<PlayerHealth>().OnShielding(true);
+        }
     }
 
     public void StopShield()
     {
         this.GetComponent<PlayerHealth>().OnShielding(false);
-        shield.ToggleShield(false);
+        shield.StopShield();
     }
 
     public void ShieldDmg(float damageBlocked)
