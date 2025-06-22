@@ -30,6 +30,7 @@ public class PlayerHealth : MonoBehaviour
     void Awake()
     {
         PlayerMovement.OnDropping += ResetEnemyCollidingCount;
+        PlayerMovement.OnShieldingStatus += OnShielding;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,8 +40,6 @@ public class PlayerHealth : MonoBehaviour
 
         spriteRenderer = this.GetComponent<SpriteRenderer>();
         ogColor = spriteRenderer.color;
-
-        PlayerMovement.OnShieldingStatus += OnShielding;
     }
 
     void OnDestroy()
@@ -136,7 +135,7 @@ public class PlayerHealth : MonoBehaviour
         enemyColliding = 0;
     }
 
-    private void OnShielding(bool shielding)
+    public void OnShielding(bool shielding)
     {
         isShielding = shielding;
     }

@@ -251,7 +251,6 @@ public class PlayerMovement : MonoBehaviour
         if (context.started)
         {
             OnShieldingStatus.Invoke(true);
-            Debug.Log("aaa");
         }
         else if (context.canceled)
         {
