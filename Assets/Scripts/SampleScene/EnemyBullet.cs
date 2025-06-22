@@ -12,15 +12,18 @@ public class EnemyBullet : MonoBehaviour
         DestroyBulletAfterLiveTime();
     }
 
-
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Shield"))
+        {
+            Destroy(this.gameObject);
+        }
         if (collision.CompareTag("Player"))
         {
             collision.GetComponent<PlayerHealth>().TakeDamage(bulletDamage, bulletKnockBackDistance, this.GetComponent<Rigidbody2D>().linearVelocityX);
             Destroy(this.gameObject);
         }
-        if (collision.CompareTag("Ground"))
+        else if (collision.CompareTag("Ground"))
         {
             Destroy(this.gameObject);
         }

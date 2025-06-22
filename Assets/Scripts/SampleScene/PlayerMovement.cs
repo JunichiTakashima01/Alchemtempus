@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine growLargeCoroutine = null;
 
     public static event Action OnDropping;
+    public static event Action<bool> OnShieldingStatus;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -242,6 +243,19 @@ public class PlayerMovement : MonoBehaviour
         {
             collider.isTrigger = true;
             OnDropping.Invoke();
+        }
+    }
+
+    public void Parry(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            OnShieldingStatus.Invoke(true);
+            Debug.Log("aaa");
+        }
+        else if (context.canceled)
+        {
+            OnShieldingStatus.Invoke(false);
         }
     }
 
