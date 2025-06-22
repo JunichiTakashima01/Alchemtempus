@@ -7,6 +7,7 @@ public class Shield : MonoBehaviour
     public float shieldCoolDown = 1f;
 
     private bool canShield = true;
+    
     void Awake()
     {
     }
@@ -30,6 +31,7 @@ public class Shield : MonoBehaviour
             this.GetComponent<CircleCollider2D>().enabled = true;
             this.GetComponent<SpriteRenderer>().enabled = true;
             StartCoroutine(ShieldCoolDownCoroutine(shieldCoolDown));
+            
             return true;
         }
         return false;
