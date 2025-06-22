@@ -1,2 +1,2 @@
 # Alchemtempus
-a Metroidvania game
+a Metroidvania-like game
