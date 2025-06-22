@@ -30,7 +30,6 @@ public class PlayerHealth : MonoBehaviour
     void Awake()
     {
         PlayerMovement.OnDropping += ResetEnemyCollidingCount;
-        PlayerMovement.OnShieldingStatus += OnShielding;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,7 +44,6 @@ public class PlayerHealth : MonoBehaviour
     void OnDestroy()
     {
         PlayerMovement.OnDropping -= ResetEnemyCollidingCount;
-        PlayerMovement.OnShieldingStatus -= OnShielding;
     }
 
     //Update is called once per frame

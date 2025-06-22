@@ -4,7 +4,6 @@ public class Shield : MonoBehaviour
 {
     void Awake()
     {
-        PlayerMovement.OnShieldingStatus += StartShielding;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -14,7 +13,7 @@ public class Shield : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void StartShielding(bool shielding)
+    public void ToggleShield(bool shielding)
     {
         this.GetComponent<CircleCollider2D>().enabled = shielding;
         this.GetComponent<SpriteRenderer>().enabled = shielding;
