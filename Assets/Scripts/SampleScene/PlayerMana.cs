@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMana : MonoBehaviour
@@ -12,13 +13,15 @@ public class PlayerMana : MonoBehaviour
     private bool isInPerfectParryTimeInterval = false;
     public float perfectParryManaReturnFactor = 1.4f;
 
-    public float ManaUsedForEachDamageBlocked = 50;
-    public float ManaUsedForShielding;
+    public float ManaUsedForEachDamageBlocked = 50f;
+    public float ManaUsedForShielding = 50f;
     public float whenShieldingManaDrainedEachSecond = 50f;
     public float whenShieldingManaDrainFrequency = 2f; //2 times per s
     private Coroutine whenShieldingManaDrain = null;
 
     private bool isShielding = false;
+
+    public float manaRegen = 25f; //regenerate 25 mana each second
 
 
     void Awake()
@@ -26,12 +29,17 @@ public class PlayerMana : MonoBehaviour
         currMana = maxMana;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
     // Update is called once per frame
     // void Update()
     // {
 
     // }
+    void Start()
+    {
+        StartCoroutine(ManaRegen()); //coroutine for mana regen
+
+        manaBarUI.SetManaFiller(currMana, maxMana);
+    }
 
     public void UseMana(float mana)
     {
@@ -96,6 +104,15 @@ public class PlayerMana : MonoBehaviour
         {
             yield return new WaitForSeconds(1 / whenShieldingManaDrainFrequency);
             UseMana(whenShieldingManaDrainedEachSecond / whenShieldingManaDrainFrequency);
+        }
+    }
+
+    private IEnumerator ManaRegen()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            UseMana(-manaRegen);
         }
     }
 }

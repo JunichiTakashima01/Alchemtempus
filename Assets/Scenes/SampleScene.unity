@@ -1763,7 +1763,7 @@ MonoBehaviour:
   perfectParryTime: 0.2
   perfectParryManaReturnFactor: 1.4
   ManaUsedForEachDamageBlocked: 50
-  ManaUsedForShielding: 0
+  ManaUsedForShielding: 50
   whenShieldingManaDrainedEachSecond: 50
   whenShieldingManaDrainFrequency: 2
 --- !u!1001 &290736653

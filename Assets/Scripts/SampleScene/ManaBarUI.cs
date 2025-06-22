@@ -10,7 +10,7 @@ public class ManaBarUI : MonoBehaviour
     private float maxMana;
     private float currMana;
 
-    void Start()
+    void Awake()
     {
         manaFrameRectTransform = this.GetComponent<RectTransform>();
         currMana = maxMana;
