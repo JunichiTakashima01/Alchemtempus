@@ -29,9 +29,14 @@ public class Bullet : MonoBehaviour
     }
 
 
-        private void DestroyBulletAfterLiveTime()
+    private void DestroyBulletAfterLiveTime()
     {
         Destroy(this.gameObject, bulletLiveTime); //Destroy after bulletLiveTime seconds
+    }
+
+    public void SetBulletDamage(float dmg)
+    {
+        bulletDamage = dmg;
     }
 
 }

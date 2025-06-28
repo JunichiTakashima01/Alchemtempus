@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
     public static event Action OnEnemyKilled;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         player = GameObject.Find("Player").transform;
 
@@ -158,7 +158,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float dmg, float knockBackDistance = 0f)
     {
         currHealth -= dmg;
-        StartCoroutine(FlashWhite());
+        StartCoroutine(FlasPink());
         if (currHealth <= 0)
         {
             DestroyEnemy();
@@ -166,9 +166,9 @@ public class Enemy : MonoBehaviour
         this.transform.position -= new Vector3(direction * knockBackDistance, 0, 0);
     }
 
-    private IEnumerator FlashWhite()
+    private IEnumerator FlasPink()
     {
-        spriteRenderer.color = Color.white;
+        spriteRenderer.color = Color.lightPink;
         yield return new WaitForSeconds(0.2f);
         spriteRenderer.color = originalColor;
     }
