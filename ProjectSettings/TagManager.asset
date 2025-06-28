@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Shield
   - ItemCollector
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - UI
   - Player
   - Ground
-  - 
+  - Platform
   - 
   - 
   - 
@@ -43,8 +44,20 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2258734329
+    locked: 0
+  - name: 'TilemapGridBackground '
+    uniqueID: 3763088939
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 2085766223
+    locked: 0
+  - name: GrassLikeObjects
+    uniqueID: 1935820433
     locked: 0
   m_RenderingLayers:
   - Default
