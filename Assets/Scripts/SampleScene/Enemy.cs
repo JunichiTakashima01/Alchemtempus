@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     protected Transform player; //for this enemy object to chase
-    
+
     public GameObject bulletPrefab;
     public float chaseSpeed;
     public float jumpForce;
@@ -24,6 +24,8 @@ public class Enemy : MonoBehaviour
     private float LengthFromCenterToBottom;
     private float LengthFromCenterToSide;
     private float direction;
+
+    protected bool collidingPlayer = false;
 
     public float maxHealth = 15;
     private float currHealth;
@@ -57,6 +59,10 @@ public class Enemy : MonoBehaviour
             Move();
             DecideJump();
         }
+        if (collidingPlayer)
+        {
+            DoDMGToPlayer(damage);
+        }
     }
 
     protected void Move()
@@ -70,7 +76,7 @@ public class Enemy : MonoBehaviour
         //bool isPlayerAbove = Physics2D.Raycast(this.transform.position, Vector2.up, LengthFromCenterToBottom + 3f, 1 << player.gameObject.layer); // 1 << player.gameObject.layer provides the layermask of player object
         bool isPlayerAbove = player.position.y > (this.transform.position.y + LengthFromCenterToBottom);
         bool isPlayerBelow = player.position.y < (this.transform.position.y - LengthFromCenterToBottom);
-        
+
         if (isGrounded)
         {
 
@@ -171,5 +177,28 @@ public class Enemy : MonoBehaviour
     {
         OnEnemyKilled.Invoke();
         Destroy(this.gameObject);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            collidingPlayer = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            collidingPlayer = false;
+        }
+    }
+
+    protected virtual void DoDMGToPlayer(float dmg)
+    {
+        player.GetComponent<PlayerHealth>().TakeDamage(dmg);
     }
 }
