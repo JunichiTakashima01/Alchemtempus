@@ -3,13 +3,19 @@ using UnityEngine;
 
 public class GroundCheckCollider : MonoBehaviour
 {
-    public static event Action<bool> OnTouchingGround;
+
+    public PlayerMovement playerMovement;
     private int collisionObjectCount = 0;
+
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         collisionObjectCount += 1;
-        OnTouchingGround.Invoke(true);
+        playerMovement.SetIsGrounded(true);
+        if (collision.CompareTag("Platform"))
+        {
+            playerMovement.SetOnPlatform(true);
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -17,7 +23,11 @@ public class GroundCheckCollider : MonoBehaviour
         collisionObjectCount -= 1;
         if (collisionObjectCount == 0)
         {
-            OnTouchingGround.Invoke(false);
+            playerMovement.SetIsGrounded(false);
+        }
+        if (collision.CompareTag("Platform"))
+        {
+            playerMovement.SetOnPlatform(false);
         }
     }
 

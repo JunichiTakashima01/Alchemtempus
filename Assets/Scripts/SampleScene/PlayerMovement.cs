@@ -7,9 +7,10 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public BoxCollider2D collider;
+    private BoxCollider2D collider;
     private Vector3 playerSpawnTransformPosition = new Vector3(0, 0, 0);
     private Vector3 playerBaseScale = new Vector3(1, 1, 1);
+    public PlayerHealth playerHealth;
 
     Animator anim;
 
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     //GroundCheck
     private bool isGrounded;
+    private bool onPlatform;
     // public Transform groundCheckPos;
     // public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     // public LayerMask groundLayer;
@@ -58,8 +60,6 @@ public class PlayerMovement : MonoBehaviour
     private float growLargeDuration = 5f; //unit = second
     private Coroutine growLargeCoroutine = null;
 
-    public static event Action OnDropping;
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -69,11 +69,11 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false;
-        collider = GetComponent<BoxCollider2D>();
+        collider = this.GetComponent<BoxCollider2D>();
+        collider= this.GetComponent<BoxCollider2D>();
 
         TripleJumpGem.OnTripleJumpCollected += ChangeMaxJumpsInTheAir;
         GrowLargeGem.OnGrowLargeCollected += ChangePlayerScale;
-        GroundCheckCollider.OnTouchingGround += SetIsGrounded;
         GameController.OnGamePausedChangePauseStatus += SetGamePauseStatus;
     }
 
@@ -81,7 +81,6 @@ public class PlayerMovement : MonoBehaviour
     {
         TripleJumpGem.OnTripleJumpCollected -= ChangeMaxJumpsInTheAir;
         GrowLargeGem.OnGrowLargeCollected -= ChangePlayerScale;
-        GroundCheckCollider.OnTouchingGround -= SetIsGrounded;
         GameController.OnGamePausedChangePauseStatus -= SetGamePauseStatus;
     }
 
@@ -120,9 +119,14 @@ public class PlayerMovement : MonoBehaviour
         growLargeCoroutine = null;
     }
 
-    private void SetIsGrounded(bool isGrounded)
+    public void SetIsGrounded(bool isGrounded)
     {
         this.isGrounded = isGrounded;
+    }
+
+    public void SetOnPlatform(bool onPlatform)
+    {
+        this.onPlatform = onPlatform;
     }
 
     // Update is called once per frame
@@ -238,10 +242,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Drop(InputAction.CallbackContext context)
     {
-        if (isGrounded && context.performed && !gamePaused)
+        if (isGrounded && context.performed && !gamePaused && onPlatform)
         {
             collider.isTrigger = true;
-            OnDropping.Invoke();
+            playerHealth.ResetEnemyCollidingCount();
         }
     }
 
@@ -259,7 +263,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collider2D)
     {
-        if (!collider2D.IsTouching(collider) && collider2D.CompareTag("Ground"))
+        if (!collider2D.IsTouching(collider) && collider2D.CompareTag("Platform"))
         {
             collider.isTrigger = false;
         }
@@ -302,7 +306,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckDropIntoAbyss()//will be called in update method
     {
-        if (this.transform.position.y < -20f)
+        if (this.transform.position.y < -100f)
         {
             TeleportToSpawn();
         }

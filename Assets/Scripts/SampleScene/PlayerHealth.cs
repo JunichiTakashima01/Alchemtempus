@@ -30,7 +30,6 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake()
     {
-        PlayerMovement.OnDropping += ResetEnemyCollidingCount;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,7 +43,6 @@ public class PlayerHealth : MonoBehaviour
 
     void OnDestroy()
     {
-        PlayerMovement.OnDropping -= ResetEnemyCollidingCount;
     }
 
     //Update is called once per frame
@@ -134,7 +132,7 @@ public class PlayerHealth : MonoBehaviour
         spriteRenderer.color = currColor;
     }
 
-    private void ResetEnemyCollidingCount()
+    public void ResetEnemyCollidingCount()
     {
         enemyColliding = 0;
     }
