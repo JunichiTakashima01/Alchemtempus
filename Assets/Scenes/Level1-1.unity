@@ -2860,8 +2860,8 @@ Transform:
   m_GameObject: {fileID: 1141476901}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 98.544, y: 2.79, z: 0}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalPosition: {x: 37.15, y: 2.01, z: 0}
+  m_LocalScale: {x: 15.915999, y: 15.915999, z: 15.915999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2884,16 +2884,19 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
-  damage: 1
+  damage: 5
   bulletDamage: 3
   detectingSight: 20
   maxHealth: 200
+  immuneToKnockBack: 1
   bulletSpeed: 7
   useAbilityCD: 5
   machinegunAttackInterval: 0.15
   machinegunAttackTimes: 10
   shotgunAttackAngleBetweenBulletsDegree: 7
   shotGunAttackBulletNumberInHalf: 3
+  MultipleShotGunAttackTimes: 3
+  MultipleShotGunAttackInterval: 0.3
 --- !u!61 &1141476906
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2948,11 +2951,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141476901}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1000
+  m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
@@ -2966,7 +2969,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &1206460563
 GameObject:
   m_ObjectHideFlags: 0

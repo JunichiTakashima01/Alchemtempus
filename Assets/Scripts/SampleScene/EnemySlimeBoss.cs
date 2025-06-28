@@ -16,6 +16,10 @@ public class SlimeBossEnemy : Enemy
     public float shotgunAttackAngleBetweenBulletsDegree = 10f; //
     public int shotGunAttackBulletNumberInHalf = 3;
 
+    //multiple shitgunattack
+    public int MultipleShotGunAttackTimes = 3;
+    public float MultipleShotGunAttackInterval = 0.3f;
+
     private bool canAttack = true;
 
 
@@ -38,6 +42,8 @@ public class SlimeBossEnemy : Enemy
         {
             DoDMGToPlayer(damage);
         }
+        CheckFacingDirection();
+        ChangeFacingDirection();
     }
 
     // void SlimeBossAttackLogic()
@@ -62,15 +68,18 @@ public class SlimeBossEnemy : Enemy
             case 1:
                 ShotGunAttack();
                 break;
+            case 2:
+                MultipleShotGunAttack();
+                break;
             default:
                 break;
         }
         abilityCycleCount += 1;
-        if (abilityCycleCount == 2)
+        if (abilityCycleCount == 3)
         {
             abilityCycleCount = 0;
         }
-        
+
 
     }
 
@@ -124,6 +133,25 @@ public class SlimeBossEnemy : Enemy
             bulletDown.GetComponent<Rigidbody2D>().linearVelocity = bulletDownDirection * bulletSpeed;
 
         }
+    }
+
+    protected void MultipleShotGunAttack()
+    {
+        StartCoroutine(MultipleShotGunAttackCoroutine());
+    }
+
+    private IEnumerator MultipleShotGunAttackCoroutine()
+    {
+        for (int i = 0; i < MultipleShotGunAttackTimes; i++)
+        {
+            ShotGunAttack();
+            yield return new WaitForSeconds(MultipleShotGunAttackInterval);
+        }
+    }
+
+    protected void DashPlayerAttack()
+    {
+        
     }
 
 }

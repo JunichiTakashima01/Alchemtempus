@@ -29,6 +29,9 @@ public class Enemy : MonoBehaviour
 
     public float maxHealth = 15;
     private float currHealth;
+    public bool immuneToKnockBack = false;
+
+    
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
 
@@ -163,7 +166,10 @@ public class Enemy : MonoBehaviour
         {
             DestroyEnemy();
         }
-        this.transform.position -= new Vector3(direction * knockBackDistance, 0, 0);
+        if (!immuneToKnockBack)
+        {
+            this.transform.position -= new Vector3(direction * knockBackDistance, 0, 0);
+        }
     }
 
     private IEnumerator FlasPink()
@@ -200,5 +206,22 @@ public class Enemy : MonoBehaviour
     protected virtual void DoDMGToPlayer(float dmg)
     {
         player.GetComponent<PlayerHealth>().TakeDamage(dmg);
+    }
+
+    protected void ChangeFacingDirection()
+    {
+        if (direction == -1 && this.transform.localScale.x < 0)
+        {
+            Flip();
+        }
+        else if (direction == 1 && this.transform.localScale.x > 0)
+        {
+            Flip();
+        }
+    }
+
+    protected void Flip() //flip enemy facing direction
+    {
+        this.transform.localScale = new Vector3(-1 * this.transform.localScale.x, this.transform.localScale.y, this.transform.localScale.z);
     }
 }
