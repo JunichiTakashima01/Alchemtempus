@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    private BoxCollider2D collider;
+    private BoxCollider2D boxCollider;
     private Vector3 playerSpawnTransformPosition = new Vector3(0, 0, 0);
     private Vector3 playerBaseScale = new Vector3(1, 1, 1);
     public PlayerHealth playerHealth;
@@ -37,8 +37,9 @@ public class PlayerMovement : MonoBehaviour
     public float maxFallSpeed = 18f;
 
     //GroundCheck
-    private bool isGrounded;
-    private bool onPlatform;
+    private bool isGrounded = false;
+    private bool onPlatform = false;
+    private bool onSolidGround = false;
     // public Transform groundCheckPos;
     // public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     // public LayerMask groundLayer;
@@ -69,8 +70,7 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false;
-        collider = this.GetComponent<BoxCollider2D>();
-        collider= this.GetComponent<BoxCollider2D>();
+        boxCollider = this.GetComponent<BoxCollider2D>();
 
         TripleJumpGem.OnTripleJumpCollected += ChangeMaxJumpsInTheAir;
         GrowLargeGem.OnGrowLargeCollected += ChangePlayerScale;
@@ -112,21 +112,11 @@ public class PlayerMovement : MonoBehaviour
         {
             this.transform.localScale = this.transform.localScale + new Vector3(scaleAdditionner, scaleAdditionner, 0);
         }
-        
+
         yield return new WaitForSeconds(growLargeDuration);
 
         this.transform.localScale = playerBaseScale;
         growLargeCoroutine = null;
-    }
-
-    public void SetIsGrounded(bool isGrounded)
-    {
-        this.isGrounded = isGrounded;
-    }
-
-    public void SetOnPlatform(bool onPlatform)
-    {
-        this.onPlatform = onPlatform;
     }
 
     // Update is called once per frame
@@ -242,11 +232,15 @@ public class PlayerMovement : MonoBehaviour
 
     public void Drop(InputAction.CallbackContext context)
     {
-        if (isGrounded && context.performed && !gamePaused && onPlatform)
+        if (isGrounded && context.performed && !gamePaused && onPlatform && !onSolidGround)
         {
-            collider.isTrigger = true;
-            playerHealth.ResetEnemyCollidingCount();
+            Physics2D.IgnoreLayerCollision(6, 8, true); //Ignore collision between player and platform
         }
+    }
+    
+    public void EnableCollisionWithPlatforms()
+    {
+        Physics2D.IgnoreLayerCollision(6, 8, false); //enable collision between player and platform
     }
 
     public void Parry(InputAction.CallbackContext context)
@@ -261,13 +255,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D collider2D)
-    {
-        if (!collider2D.IsTouching(collider) && collider2D.CompareTag("Platform"))
-        {
-            collider.isTrigger = false;
-        }
-    }
 
     private void GroundCheck() //will be called in update method
     {
@@ -328,6 +315,21 @@ public class PlayerMovement : MonoBehaviour
         // {
         //     this.GetComponent<PlayerMovement>().enabled = true; //enable update and fixedupdate when game is resumed   
         // }     
+    }
+
+    public void SetIsGrounded(bool isGrounded)
+    {
+        this.isGrounded = isGrounded;
+    }
+
+    public void SetOnPlatform(bool onPlatform)
+    {
+        this.onPlatform = onPlatform;
+    }
+    
+    public void SetOnSolidGround(bool onSolidGround)
+    {
+        this.onSolidGround = onSolidGround;
     }
 
 

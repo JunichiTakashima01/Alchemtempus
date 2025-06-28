@@ -16,6 +16,10 @@ public class GroundCheckCollider : MonoBehaviour
         {
             playerMovement.SetOnPlatform(true);
         }
+        else if (collision.CompareTag("Ground"))
+        {
+            playerMovement.SetOnSolidGround(true);
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -28,6 +32,10 @@ public class GroundCheckCollider : MonoBehaviour
         if (collision.CompareTag("Platform"))
         {
             playerMovement.SetOnPlatform(false);
+        }
+        else if (collision.CompareTag("Ground"))
+        {
+            playerMovement.SetOnSolidGround(false);
         }
     }
 
