@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     protected Transform player; //for this enemy object to chase
-    
+
     public GameObject bulletPrefab;
     public float chaseSpeed;
     public float jumpForce;
@@ -25,15 +25,20 @@ public class Enemy : MonoBehaviour
     private float LengthFromCenterToSide;
     private float direction;
 
+    protected bool collidingPlayer = false;
+
     public float maxHealth = 15;
     private float currHealth;
+    public bool immuneToKnockBack = false;
+
+    
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
 
     public static event Action OnEnemyKilled;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         player = GameObject.Find("Player").transform;
 
@@ -57,6 +62,10 @@ public class Enemy : MonoBehaviour
             Move();
             DecideJump();
         }
+        if (collidingPlayer)
+        {
+            DoDMGToPlayer(damage);
+        }
     }
 
     protected void Move()
@@ -70,7 +79,7 @@ public class Enemy : MonoBehaviour
         //bool isPlayerAbove = Physics2D.Raycast(this.transform.position, Vector2.up, LengthFromCenterToBottom + 3f, 1 << player.gameObject.layer); // 1 << player.gameObject.layer provides the layermask of player object
         bool isPlayerAbove = player.position.y > (this.transform.position.y + LengthFromCenterToBottom);
         bool isPlayerBelow = player.position.y < (this.transform.position.y - LengthFromCenterToBottom);
-        
+
         if (isGrounded)
         {
 
@@ -152,17 +161,20 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float dmg, float knockBackDistance = 0f)
     {
         currHealth -= dmg;
-        StartCoroutine(FlashWhite());
+        StartCoroutine(FlasPink());
         if (currHealth <= 0)
         {
             DestroyEnemy();
         }
-        this.transform.position -= new Vector3(direction * knockBackDistance, 0, 0);
+        if (!immuneToKnockBack)
+        {
+            this.transform.position -= new Vector3(direction * knockBackDistance, 0, 0);
+        }
     }
 
-    private IEnumerator FlashWhite()
+    private IEnumerator FlasPink()
     {
-        spriteRenderer.color = Color.white;
+        spriteRenderer.color = Color.lightPink;
         yield return new WaitForSeconds(0.2f);
         spriteRenderer.color = originalColor;
     }
@@ -171,5 +183,45 @@ public class Enemy : MonoBehaviour
     {
         OnEnemyKilled.Invoke();
         Destroy(this.gameObject);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            collidingPlayer = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            collidingPlayer = false;
+        }
+    }
+
+    protected virtual void DoDMGToPlayer(float dmg)
+    {
+        player.GetComponent<PlayerHealth>().TakeDamage(dmg);
+    }
+
+    protected void ChangeFacingDirection()
+    {
+        if (direction == -1 && this.transform.localScale.x < 0)
+        {
+            Flip();
+        }
+        else if (direction == 1 && this.transform.localScale.x > 0)
+        {
+            Flip();
+        }
+    }
+
+    protected void Flip() //flip enemy facing direction
+    {
+        this.transform.localScale = new Vector3(-1 * this.transform.localScale.x, this.transform.localScale.y, this.transform.localScale.z);
     }
 }

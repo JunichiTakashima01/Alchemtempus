@@ -17,8 +17,8 @@ public class PlayerHealth : MonoBehaviour
     private bool ableToTakeDamage = true;
     private bool isShielding = false;
 
-    private int enemyColliding = 0;
-    private List<Enemy> enemies = new List<Enemy>();
+    // private int enemyColliding = 0;
+    // private List<Enemy> enemies = new List<Enemy>();
 
     private SpriteRenderer spriteRenderer;
     Color ogColor;
@@ -48,13 +48,6 @@ public class PlayerHealth : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
-        if (ableToTakeDamage && enemyColliding > 0)
-        {
-            foreach (Enemy enemy in enemies)
-            {
-                TakeDamage(enemy.damage);
-            }
-        }
     }
 
 
@@ -81,36 +74,16 @@ public class PlayerHealth : MonoBehaviour
                 healthBarUI.SetHealthFiller(currHealth, maxHealth);
 
                 StartCoroutine(FlashColor(Color.red));
-                StartCoroutine(TakeDamageCD(ShieldedDamageCoolDown));
+                StartCoroutine(TakeDamageCD(takeDamageCoolDown));
             }
             else
             {
                 this.GetComponent<PlayerMana>().ShieldDmg(damage);
-                StartCoroutine(TakeDamageCD(takeDamageCoolDown * 0.4f));
+                StartCoroutine(TakeDamageCD(ShieldedDamageCoolDown));
             }
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            enemyColliding += 1;
-            enemies.Add(enemy);
-            TakeDamage(enemy.damage);
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            enemies.Remove(enemy);
-            enemyColliding -= 1;
-        }
-    }
 
     private IEnumerator TakeDamageCD(float cd)
     {
@@ -132,10 +105,10 @@ public class PlayerHealth : MonoBehaviour
         spriteRenderer.color = currColor;
     }
 
-    public void ResetEnemyCollidingCount()
-    {
-        enemyColliding = 0;
-    }
+    // public void ResetEnemyCollidingCount()
+    // {
+    //     enemyColliding = 0;
+    // }
 
     public void OnShielding(bool shielding)
     {

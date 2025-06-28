@@ -125,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
         if (gamePaused) return;
         //On game paused this script will be disabled and update method won't be called.
         anim.SetFloat("HorizontalVelocity", Mathf.Abs(rb.linearVelocity.x));
-        anim.SetFloat("VerticalVelocity", Mathf.Abs(rb.linearVelocity.y));
+        anim.SetFloat("VerticalVelocity", rb.linearVelocity.y);
         anim.SetBool("isMoving", isMoving);
         anim.SetBool("ground", isGrounded);
         anim.SetBool("dash", isDashing);
@@ -169,6 +169,7 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
                 jumpRemaining--;
                 baseGravity = originalGravity;
+                anim.SetBool("isJump", true);
             }
         }
     }
@@ -266,6 +267,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 jumpRemaining = maxJumps;
                 DashRemaining = maxDashes;
+                anim.SetBool("isJump", false);
             }
         }
     }
