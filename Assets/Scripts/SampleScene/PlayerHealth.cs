@@ -78,6 +78,10 @@ public class PlayerHealth : MonoBehaviour
                     currHealth = 0;
                     OnPlayerZeroHealth.Invoke();
                 }
+                if (currHealth > maxHealth)
+                {
+                    currHealth = maxHealth;
+                }
 
                 healthBarUI.SetHealthFiller(currHealth, maxHealth);
 
