@@ -39,10 +39,17 @@ public class PlayerHealth : MonoBehaviour
 
         spriteRenderer = this.GetComponent<SpriteRenderer>();
         ogColor = spriteRenderer.color;
-    }
+        HealthGem.OnHealthGemCollected += AddCurrentHealth;
+        }
 
     void OnDestroy()
     {
+        HealthGem.OnHealthGemCollected -= AddCurrentHealth;
+    }
+
+    private void AddCurrentHealth(int health)
+    {
+        TakeDamage(-health);
     }
 
     //Update is called once per frame
