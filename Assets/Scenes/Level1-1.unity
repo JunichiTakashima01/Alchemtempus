@@ -2897,6 +2897,8 @@ MonoBehaviour:
   shotGunAttackBulletNumberInHalf: 3
   MultipleShotGunAttackTimes: 3
   MultipleShotGunAttackInterval: 0.3
+  dashSpeed: 7
+  dashDistance: 15
 --- !u!61 &1141476906
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -50497,7 +50499,7 @@ CompositeCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -52734,7 +52736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2948852510261693760, guid: 3a062c4e6dfcee0489a94e3610cd00fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 41.27
+      value: 14.1
       objectReference: {fileID: 0}
     - target: {fileID: 2948852510261693760, guid: 3a062c4e6dfcee0489a94e3610cd00fb, type: 3}
       propertyPath: m_LocalPosition.y

@@ -20,7 +20,12 @@ public class SlimeBossEnemy : Enemy
     public int MultipleShotGunAttackTimes = 3;
     public float MultipleShotGunAttackInterval = 0.3f;
 
+    //dash player ability
+    public float dashSpeed = 10f;
+    public float dashDistance = 30f;
+
     private bool canAttack = true;
+    private bool canChangeFacingDirection = true;
 
 
 
@@ -42,8 +47,11 @@ public class SlimeBossEnemy : Enemy
         {
             DoDMGToPlayer(damage);
         }
-        CheckFacingDirection();
-        ChangeFacingDirection();
+        if (canChangeFacingDirection)
+        {
+            CheckFacingDirection();
+            ChangeFacingDirection();
+        }
     }
 
     // void SlimeBossAttackLogic()
@@ -71,11 +79,14 @@ public class SlimeBossEnemy : Enemy
             case 2:
                 MultipleShotGunAttack();
                 break;
+            case 3:
+                DashPlayerAbility();
+                break;
             default:
                 break;
         }
         abilityCycleCount += 1;
-        if (abilityCycleCount == 3)
+        if (abilityCycleCount == 4)
         {
             abilityCycleCount = 0;
         }
@@ -149,9 +160,20 @@ public class SlimeBossEnemy : Enemy
         }
     }
 
-    protected void DashPlayerAttack()
+    protected void DashPlayerAbility()
     {
-        
+        StartCoroutine(DashPlayerAbilityCoroutine());
+    }
+
+    private IEnumerator DashPlayerAbilityCoroutine()
+    {
+        canChangeFacingDirection = false;
+        Rigidbody2D rb = this.GetComponent<Rigidbody2D>();
+        float facingDirection = direction;
+        rb.linearVelocity = new Vector2(dashSpeed * facingDirection, 0);
+        yield return new WaitForSeconds(dashDistance / dashSpeed);
+        rb.linearVelocity = new Vector2(0, 0);
+        canChangeFacingDirection = true;
     }
 
 }
