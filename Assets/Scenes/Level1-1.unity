@@ -1280,9 +1280,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2845755584407011973, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 579316ff770f2e343a2e29fd5cd57446, type: 3}
     - target: {fileID: 4602488887730130586, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
       propertyPath: m_Mass
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379123198348525500, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.753171
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379123198348525500, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5.753171
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379123198348525500, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5.753171
       objectReference: {fileID: 0}
     - target: {fileID: 7379123198348525500, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1324,6 +1340,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8485677143950046320, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_Size.x
+      value: 0.21128011
+      objectReference: {fileID: 0}
+    - target: {fileID: 8485677143950046320, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_Size.y
+      value: 0.20056401
+      objectReference: {fileID: 0}
+    - target: {fileID: 8485677143950046320, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8485677143950046320, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.032148957
+      objectReference: {fileID: 0}
+    - target: {fileID: 8485677143950046320, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.03322036
+      objectReference: {fileID: 0}
+    - target: {fileID: 8485677143950046320, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8485677143950046320, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.26
+      objectReference: {fileID: 0}
     - target: {fileID: 9079483195555501166, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -1331,7 +1375,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9079483195555501166, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1448540005}
   m_SourcePrefab: {fileID: 100100000, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
 --- !u!1 &713309903
 GameObject:
@@ -24747,6 +24794,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 1790353503}
+--- !u!1 &1448539999 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9079483195555501166, guid: dd3a3d85715a6b240be2f720454faef2, type: 3}
+  m_PrefabInstance: {fileID: 690368736}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1448540005
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448539999}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 67c716b1f11d3dc489685ec26ea36bd9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1494325129
 GameObject:
   m_ObjectHideFlags: 0
