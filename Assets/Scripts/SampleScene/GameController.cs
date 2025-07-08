@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public GameObject winGameScene;
 
     public TMP_Text enemyRemainingText;
+    public TMP_Text coinCntText;
     public int enemyMaxCount = 42;
     private int enemyRemaining;
 
@@ -32,20 +33,21 @@ public class GameController : MonoBehaviour
         enemyRemaining = enemyMaxCount;
         SetEnemyRemainingText();
 
-        CoinGem.OnCoinGemCollected += ChangeMaxCoin;
+        CoinGem.OnCoinGemCollected += SetCoinNum;
     }
 
     void OnDestroy()
     {
         PlayerHealth.OnPlayerZeroHealth -= GameOverScreen;
         Enemy.OnEnemyKilled -= OnEnemyKilled;
-        CoinGem.OnCoinGemCollected -= ChangeMaxCoin;
+        CoinGem.OnCoinGemCollected -= SetCoinNum;
     }
 
-    private void ChangeMaxCoin(int coin_collected)
+    private void SetCoinNum(int coin_collected)
     {
         coin_num += coin_collected;
-        Debug.Log(coin_num);
+        coinCntText.text = "" + coin_num;
+        //Debug.Log(coin_num);
     }
 
     private void OnEnemyKilled()
