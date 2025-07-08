@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     //private bool isJumping;
     private float LengthFromCenterToBottom;
     private float LengthFromCenterToSide;
-    private float direction;
+    protected float direction;
 
     protected bool collidingPlayer = false;
 
