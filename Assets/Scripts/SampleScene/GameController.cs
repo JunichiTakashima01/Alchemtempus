@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour
     public int enemyMaxCount = 42;
     private int enemyRemaining;
 
+    public int coin_num = 0;
+
     public static event Action<bool> OnGamePausedChangePauseStatus;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,12 +31,21 @@ public class GameController : MonoBehaviour
         Enemy.OnEnemyKilled += OnEnemyKilled;
         enemyRemaining = enemyMaxCount;
         SetEnemyRemainingText();
+
+        CoinGem.OnCoinGemCollected += ChangeMaxCoin;
     }
 
     void OnDestroy()
     {
         PlayerHealth.OnPlayerZeroHealth -= GameOverScreen;
         Enemy.OnEnemyKilled -= OnEnemyKilled;
+        CoinGem.OnCoinGemCollected -= ChangeMaxCoin;
+    }
+
+    private void ChangeMaxCoin(int coin_collected)
+    {
+        coin_num += coin_collected;
+        Debug.Log(coin_num);
     }
 
     private void OnEnemyKilled()
