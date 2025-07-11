@@ -37,6 +37,9 @@ public class Enemy : MonoBehaviour
 
     public static event Action OnEnemyKilled;
 
+    private Animator animator;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
@@ -50,6 +53,9 @@ public class Enemy : MonoBehaviour
         currHealth = maxHealth;
         spriteRenderer = this.GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+
+        animator = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -66,6 +72,8 @@ public class Enemy : MonoBehaviour
         {
             DoDMGToPlayer(damage);
         }
+        animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+
     }
 
     protected void Move()
@@ -140,6 +148,7 @@ public class Enemy : MonoBehaviour
     {
         //Player Direction?
         direction = Mathf.Sign(player.position.x - this.transform.position.x);
+        ChangeFacingDirection();
     }
 
     protected void shootAtPlayer(float velocity)
