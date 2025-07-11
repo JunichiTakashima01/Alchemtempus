@@ -10,13 +10,15 @@ public class GameController : MonoBehaviour
     public GameObject pauseGameScene;
     public GameObject pauseButtonGameObject;
     public GameObject winGameScene;
+    public GameObject player;
 
     public TMP_Text enemyRemainingText;
     public TMP_Text coinCntText;
     public int enemyMaxCount = 42;
     private int enemyRemaining;
 
-    public int coin_num = 0;
+    private int coinNum = 0;
+    public int UpgradeBulletDamageCoinCost = 1;
 
     public static event Action<bool> OnGamePausedChangePauseStatus;
 
@@ -43,10 +45,10 @@ public class GameController : MonoBehaviour
         CoinGem.OnCoinGemCollected -= SetCoinNum;
     }
 
-    private void SetCoinNum(int coin_collected)
+    private void SetCoinNum(int coinCollected)
     {
-        coin_num += coin_collected;
-        coinCntText.text = "" + coin_num;
+        coinNum += coinCollected;
+        UpdateCoinNum();
         //Debug.Log(coin_num);
     }
 
@@ -100,6 +102,33 @@ public class GameController : MonoBehaviour
         OnGamePausedChangePauseStatus.Invoke(false);
         pauseButtonGameObject.SetActive(true);
         Time.timeScale = 1;
+    }
+
+    public void UpdateBulletDamage()
+    {
+        if (UseCoin(UpgradeBulletDamageCoinCost))
+        {
+            player.GetComponent<PlayerShoot>().IncreasePlayerBulletDamageOne();
+        }
+        UpdateCoinNum();
+    }
+
+    public bool UseCoin(int coinNumToUse)
+    {
+        if (coinNum < coinNumToUse)
+        {
+            return false;
+        }
+        else
+        {
+            coinNum -= coinNumToUse;
+            return true;
+        }
+    }
+
+    private void UpdateCoinNum()
+    {
+        coinCntText.text = "" + coinNum;
     }
 
     public void ExitGame()
