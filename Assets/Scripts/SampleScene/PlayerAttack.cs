@@ -32,6 +32,10 @@ public class PlayerAttack : MonoBehaviour
                 animator.SetBool("attack", false);
             }
         }
+        else if (isAttacking && !animatorStateInfo.IsName("AttackShort"))
+        {
+            isAttacking = false;
+        }
     }
 
     public void Attack()
@@ -39,6 +43,11 @@ public class PlayerAttack : MonoBehaviour
         isAttacking = true;
         attack = true;
         animator.SetBool("attack", true);
+    }
+
+    public bool GetIsAttacking()
+    {
+        return isAttacking;
     }
 
     private IEnumerator AttackMotion()

@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 playerSpawnTransformPosition = new Vector3(0, 0, 0);
     private Vector3 playerBaseScale = new Vector3(1, 1, 1);
     public PlayerHealth playerHealth;
+    private PlayerAttack playerAttack;
 
     Animator anim;
 
@@ -71,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false;
         boxCollider = this.GetComponent<BoxCollider2D>();
+        playerAttack = GetComponent<PlayerAttack>();
 
         TripleJumpGem.OnTripleJumpCollected += ChangeMaxJumpsInTheAir;
         GrowLargeGem.OnGrowLargeCollected += ChangePlayerScale;
@@ -141,23 +143,36 @@ public class PlayerMovement : MonoBehaviour
 
         Flip();
 
-        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y); //control movement
+        MovementControl();
     }
     public void Move(InputAction.CallbackContext context)
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
-        if (horizontalMovement < 0)
+    }
+
+    private void MovementControl()
+    {
+        if (isGrounded && playerAttack.GetIsAttacking())
         {
-            isMoving = true;
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         }
-        else if (horizontalMovement > 0)
+        else
         {
-            isMoving = true;
-        }
-        if (horizontalMovement == 0)
-        {
-            isMoving = false;
-        }
+            rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y); //control movement
+
+            if (horizontalMovement < 0)
+            {
+                isMoving = true;
+            }
+            else if (horizontalMovement > 0)
+            {
+                isMoving = true;
+            }
+            if (horizontalMovement == 0)
+            {
+                isMoving = false;
+            }
+        }   
     }
 
     public void Jump(InputAction.CallbackContext context)

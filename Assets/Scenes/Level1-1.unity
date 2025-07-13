@@ -1960,7 +1960,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.083414614, y: -0.010939658}
+  m_Offset: {x: -0.048264753, y: -0.010939658}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1970,7 +1970,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.26431036, y: 0.38738084}
+  m_Size: {x: 0.33461007, y: 0.38738084}
   m_EdgeRadius: 0
 --- !u!114 &808013732
 MonoBehaviour:
@@ -51489,7 +51489,7 @@ MonoBehaviour:
   moveSpeed: 5
   horizontalMovement: 0
   isMoving: 0
-  jumpPower: 8
+  jumpPower: 9
   maxJumps: 2
   baseGravity: 1.8
   fallSpeedMultiplier: 1.8
@@ -51823,6 +51823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCollisionBox: {fileID: 808013732}
   attackDmg: 3
+  knockBackDistance: 2
 --- !u!1 &1836546834
 GameObject:
   m_ObjectHideFlags: 0
