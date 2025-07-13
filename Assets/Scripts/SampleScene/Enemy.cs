@@ -3,7 +3,7 @@ using System.Collections;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IEnemy
 {
     protected Transform player; //for this enemy object to chase
 
@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
 
-    public static event Action OnEnemyKilled;
+    public static event Action<Enemy> OnEnemyKilled;
 
     private Animator animator;
 
@@ -188,9 +188,9 @@ public class Enemy : MonoBehaviour
         spriteRenderer.color = originalColor;
     }
 
-    private void DestroyEnemy()
+    public void DestroyEnemy()
     {
-        OnEnemyKilled.Invoke();
+        OnEnemyKilled.Invoke(this);
         Destroy(this.gameObject);
     }
 

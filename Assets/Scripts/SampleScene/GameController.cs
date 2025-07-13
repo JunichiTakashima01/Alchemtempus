@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
         //Debug.Log(coin_num);
     }
 
-    private void OnEnemyKilled()
+    private void OnEnemyKilled(Enemy enemy)
     {
         enemyRemaining -= 1;
         if (enemyRemaining <= 0)
