@@ -59,14 +59,15 @@ public class PlayerAttack : MonoBehaviour
     {
         if (context.started && canAttack && !gameController.getGamePausedStatus())
         {
-            if (playerMovement.GetIsDashing())
+            if (playerMovement.GetIsDashing())//dash attack
             {
                 isDashAttacking = true;
                 animator.SetBool("dashAttack", true);
                 playerMovement.StopDashing();
+                playerMovement.TurnOffGravity();
             }
-            else if ((!isAttacking || attacked) &&(!isDashAttacking || dashAttacked)) // either not dash attacking or after dash attack applied which means not in the middle of the dash attack
-            {
+            else if ((!isAttacking || attacked) && (!isDashAttacking || dashAttacked)) // either not dash attacking or after dash attack applied which means not in the middle of the dash attack
+            { //normal attack
                 isAttacking = true;
                 animator.SetBool("attack", true);
             }
@@ -131,5 +132,10 @@ public class PlayerAttack : MonoBehaviour
         isDashAttacking = false;
         dashAttacked = false;
         animator.SetBool("dashAttack", false);
+    }
+
+    public void OnDashAttackFinish()
+    {
+        playerMovement.TurnOnGravity();
     }
 }

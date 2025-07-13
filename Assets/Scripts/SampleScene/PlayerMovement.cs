@@ -32,8 +32,8 @@ public class PlayerMovement : MonoBehaviour
     private int jumpRemaining = 0;
 
     //Gravity
-    private float originalGravity = 1.8f;
-    public float baseGravity = 1.8f;
+    public float originalGravity = 1.8f;
+    private float baseGravity;
     public float fallSpeedMultiplier = 1.8f;
     public float maxFallSpeed = 18f;
 
@@ -69,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        baseGravity = originalGravity;
+
         anim = GetComponent<Animator>();
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false;
@@ -237,13 +239,12 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashDuration * 0.2f);
 
         rb.linearVelocityX = facingDirection * dashSpeed;
-        baseGravity = 0f;
-        rb.linearVelocityY = 0f;
+        TurnOffGravity();
 
         yield return new WaitForSeconds(dashDuration * 0.8f);
 
         rb.linearVelocityX = 0f;
-        baseGravity = originalGravity;
+        TurnOnGravity();
 
         isDashing = false;
         trailRenderer.emitting = false;
@@ -390,6 +391,17 @@ public class PlayerMovement : MonoBehaviour
     public float GetFacingDirection()
     {
         return facingDirection;
+    }
+
+    public void TurnOffGravity()
+    {
+        rb.linearVelocityY = 0f;
+        baseGravity = 0f;
+    }
+
+    public void TurnOnGravity()
+    {
+        baseGravity = originalGravity;
     }
 
 
