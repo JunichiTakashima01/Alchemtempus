@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "d29f53a0-5166-4409-8931-6e1e975700b9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -227,7 +236,7 @@
                 {
                     "name": "",
                     "id": "2d55b44c-52ea-4cd1-9562-e2a9faf8e794",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -260,7 +269,7 @@
                 {
                     "name": "modifier",
                     "id": "a82c068b-f98a-40e7-b40c-cf3eed133a6e",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -293,11 +302,22 @@
                 {
                     "name": "",
                     "id": "583e3d7e-310f-4605-b063-1aeac0af7dbd",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Parry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbf45146-7668-4f2b-b5b2-5ceee1afc76f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

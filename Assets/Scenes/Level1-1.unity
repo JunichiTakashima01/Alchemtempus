@@ -51612,7 +51612,6 @@ MonoBehaviour:
   rb: {fileID: 1790353506}
   playerHealth: {fileID: 1790353499}
   moveSpeed: 5
-  horizontalMovement: 0
   isMoving: 0
   jumpPower: 9
   maxJumps: 2
@@ -51755,9 +51754,9 @@ MonoBehaviour:
     m_ActionName: 'Player/Dash[/Keyboard/leftShift]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1790353508}
-        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
-        m_MethodName: Attack
+      - m_Target: {fileID: 1790353500}
+        m_TargetAssemblyTypeName: PlayerShoot, Assembly-CSharp
+        m_MethodName: Shoot
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -51801,6 +51800,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5814aed9-e90f-4d59-aa2c-620f45f21526
     m_ActionName: 'Player/Parry[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1790353508}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
+        m_MethodName: Attack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d29f53a0-5166-4409-8931-6e1e975700b9
+    m_ActionName: 'Player/Attack[/Mouse/leftButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -51949,7 +51964,9 @@ MonoBehaviour:
   attackCollisionBox: {fileID: 808013732}
   gameController: {fileID: 685248346}
   attackDmg: 3
+  dashAttackDmg: 5
   knockBackDistance: 2
+  attackMoveDistance: 0.2
 --- !u!1 &1836546834
 GameObject:
   m_ObjectHideFlags: 0
