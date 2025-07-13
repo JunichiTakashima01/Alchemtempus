@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class BasicEnemy : Enemy
+public class BasicEnemy : Enemy, IEnemy
 {
     protected override void Update()
     {

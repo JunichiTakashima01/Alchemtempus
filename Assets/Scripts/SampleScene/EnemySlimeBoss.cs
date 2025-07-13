@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class SlimeBossEnemy : Enemy
+public class SlimeBossEnemy : Enemy, IEnemy
 {
     public float bulletSpeed = 5f;
     public float useAbilityCD = 5f;
