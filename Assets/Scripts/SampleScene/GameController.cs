@@ -20,6 +20,8 @@ public class GameController : MonoBehaviour
     private int coinNum = 0;
     public int UpgradeBulletDamageCoinCost = 1;
 
+    private bool gamePaused = false;
+
     public static event Action<bool> OnGamePausedChangePauseStatus;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -78,12 +80,14 @@ public class GameController : MonoBehaviour
         gameOverScene.SetActive(true);
         pauseButtonGameObject.SetActive(false);
         OnGamePausedChangePauseStatus.Invoke(true);
+        gamePaused = true;
         Time.timeScale = 0;
     }
 
     public void RestartGame()
     {
         OnGamePausedChangePauseStatus.Invoke(false);
+        gamePaused = false;
         SceneManager.LoadScene("SampleScene");
         Time.timeScale = 1;
     }
@@ -92,6 +96,7 @@ public class GameController : MonoBehaviour
     {
         pauseGameScene.SetActive(true);
         OnGamePausedChangePauseStatus.Invoke(true);
+        gamePaused = true;
         pauseButtonGameObject.SetActive(false);
         Time.timeScale = 0;
     }
@@ -100,6 +105,7 @@ public class GameController : MonoBehaviour
     {
         pauseGameScene.SetActive(false);
         OnGamePausedChangePauseStatus.Invoke(false);
+        gamePaused = false;
         pauseButtonGameObject.SetActive(true);
         Time.timeScale = 1;
     }
@@ -129,6 +135,11 @@ public class GameController : MonoBehaviour
     private void UpdateCoinNum()
     {
         coinCntText.text = "" + coinNum;
+    }
+
+    public bool getGamePausedStatus()
+    {
+        return gamePaused;
     }
 
     public void ExitGame()
