@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
 
     private int coinNum = 0;
     public int UpgradeBulletDamageCoinCost = 1;
+    public int UpgradeHealthCoinCost = 1;
 
     private bool gamePaused = false;
 
@@ -115,6 +116,16 @@ public class GameController : MonoBehaviour
         if (UseCoin(UpgradeBulletDamageCoinCost))
         {
             player.GetComponent<PlayerShoot>().IncreasePlayerBulletDamageOne();
+        }
+        UpdateCoinNum();
+    }
+
+    public void UpdateHealth()
+    {
+        if (UseCoin(UpgradeHealthCoinCost))
+        {
+            //player.GetComponent<PlayerShoot>().IncreasePlayerBulletDamageOne();
+            player.GetComponent<PlayerHealth>().AddCurrentHealth(1);
         }
         UpdateCoinNum();
     }
