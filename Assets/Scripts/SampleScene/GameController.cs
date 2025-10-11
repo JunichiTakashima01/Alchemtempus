@@ -89,7 +89,7 @@ public class GameController : MonoBehaviour
     {
         OnGamePausedChangePauseStatus.Invoke(false);
         gamePaused = false;
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Level1-1");
         Time.timeScale = 1;
     }
 
