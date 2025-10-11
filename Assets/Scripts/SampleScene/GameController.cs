@@ -84,7 +84,12 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         OnGamePausedChangePauseStatus.Invoke(false);
+<<<<<<< Updated upstream
         SceneManager.LoadScene("SampleScene");
+=======
+        gamePaused = false;
+        SceneManager.LoadScene("Level1-1");
+>>>>>>> Stashed changes
         Time.timeScale = 1;
     }
 
