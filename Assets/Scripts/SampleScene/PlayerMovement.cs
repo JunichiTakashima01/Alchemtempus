@@ -19,11 +19,11 @@ public class PlayerMovement : MonoBehaviour
     private bool gamePaused = false;
 
     //Facing
-    public float facingDirection = 1f; // right is 1, left is -1
+    private float facingDirection = 1f; // right is 1, left is -1
 
     //Movement
     public float moveSpeed = 5f;
-    public float horizontalMovement;
+    private float horizontalMovement;
     public bool isMoving = false;
 
     //Jump
@@ -32,8 +32,8 @@ public class PlayerMovement : MonoBehaviour
     private int jumpRemaining = 0;
 
     //Gravity
-    private float originalGravity = 1.8f;
-    public float baseGravity = 1.8f;
+    public float originalGravity = 1.8f;
+    private float baseGravity;
     public float fallSpeedMultiplier = 1.8f;
     public float maxFallSpeed = 18f;
 
@@ -61,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
     //Gem Effect
     private float growLargeDuration = 5f; //unit = second
     private Coroutine growLargeCoroutine = null;
+    private Coroutine dashCoroutine = null;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -68,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        baseGravity = originalGravity;
+
         anim = GetComponent<Animator>();
         trailRenderer = GetComponent<TrailRenderer>();
         trailRenderer.emitting = false;
@@ -172,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 isMoving = false;
             }
-        }   
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -218,8 +221,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (DashRemaining > 0 && context.performed && canDash && !gamePaused)
         {
-            StartCoroutine(DashCoroutine());
+            dashCoroutine = StartCoroutine(DashCoroutine());
             DashRemaining--;
+
+            GetComponent<PlayerAttack>().ResetAttackStatus();
         }
     }
 
@@ -229,21 +234,45 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         trailRenderer.emitting = true;
 
+        //In the first 20% of the time the dash speed is 20%
+        rb.linearVelocityX = facingDirection * dashSpeed * 0.2f;
+        yield return new WaitForSeconds(dashDuration * 0.2f);
+
         rb.linearVelocityX = facingDirection * dashSpeed;
-        baseGravity = 0f;
-        rb.linearVelocityY = 0f;
+        TurnOffGravity();
 
-
-        yield return new WaitForSeconds(dashDuration);
+        yield return new WaitForSeconds(dashDuration * 0.8f);
 
         rb.linearVelocityX = 0f;
-        baseGravity = originalGravity;
+        TurnOnGravity();
 
         isDashing = false;
         trailRenderer.emitting = false;
 
+        dashCoroutine = null;
+
+        StartCoroutine(DashCoolDown());
+    }
+
+    private IEnumerator DashCoolDown()
+    {
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
+    }
+
+    public void StopDashing()
+    {
+        if (dashCoroutine != null)
+        {
+            StopCoroutine(dashCoroutine);
+            rb.linearVelocityX = 0f;
+            baseGravity = originalGravity;
+
+            isDashing = false;
+            trailRenderer.emitting = false;
+
+            StartCoroutine(DashCoolDown());
+        }
     }
 
     public void Drop(InputAction.CallbackContext context)
@@ -253,7 +282,7 @@ public class PlayerMovement : MonoBehaviour
             Physics2D.IgnoreLayerCollision(6, 8, true); //Ignore collision between player and platform
         }
     }
-    
+
     public void EnableCollisionWithPlatforms()
     {
         Physics2D.IgnoreLayerCollision(6, 8, false); //enable collision between player and platform
@@ -343,10 +372,36 @@ public class PlayerMovement : MonoBehaviour
     {
         this.onPlatform = onPlatform;
     }
-    
+
     public void SetOnSolidGround(bool onSolidGround)
     {
         this.onSolidGround = onSolidGround;
+    }
+
+    public bool GetIsDashing()
+    {
+        return isDashing;
+    }
+
+    public float GetHorizontalControllerValue()
+    {
+        return horizontalMovement;
+    }
+
+    public float GetFacingDirection()
+    {
+        return facingDirection;
+    }
+
+    public void TurnOffGravity()
+    {
+        rb.linearVelocityY = 0f;
+        baseGravity = 0f;
+    }
+
+    public void TurnOnGravity()
+    {
+        baseGravity = originalGravity;
     }
 
 

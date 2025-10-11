@@ -24,7 +24,7 @@ public class EnemyBullet : MonoBehaviour
             collision.GetComponent<PlayerHealth>().TakeDamage(bulletDamage, bulletKnockBackDistance, this.GetComponent<Rigidbody2D>().linearVelocityX);
             Destroy(this.gameObject);
         }
-        else if (collision.CompareTag("Ground"))
+        else if (collision.CompareTag("Ground") || collision.CompareTag("Wall"))
         {
             Destroy(this.gameObject);
         }

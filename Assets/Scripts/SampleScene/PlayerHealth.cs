@@ -48,7 +48,7 @@ public class PlayerHealth : MonoBehaviour
         HealthGem.OnHealthGemCollected -= AddCurrentHealth;
     }
 
-    private void AddCurrentHealth(int health)
+    public void AddCurrentHealth(int health)
     {
         TakeDamage(-health, 0, 0, false);
     }

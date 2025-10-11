@@ -19,6 +19,9 @@ public class GameController : MonoBehaviour
 
     private int coinNum = 0;
     public int UpgradeBulletDamageCoinCost = 1;
+    public int UpgradeHealthCoinCost = 1;
+
+    private bool gamePaused = false;
 
     public static event Action<bool> OnGamePausedChangePauseStatus;
 
@@ -78,13 +81,15 @@ public class GameController : MonoBehaviour
         gameOverScene.SetActive(true);
         pauseButtonGameObject.SetActive(false);
         OnGamePausedChangePauseStatus.Invoke(true);
+        gamePaused = true;
         Time.timeScale = 0;
     }
 
     public void RestartGame()
     {
         OnGamePausedChangePauseStatus.Invoke(false);
-        SceneManager.LoadScene("SampleScene");
+        gamePaused = false;
+        SceneManager.LoadScene("Level1-1");
         Time.timeScale = 1;
     }
 
@@ -92,6 +97,7 @@ public class GameController : MonoBehaviour
     {
         pauseGameScene.SetActive(true);
         OnGamePausedChangePauseStatus.Invoke(true);
+        gamePaused = true;
         pauseButtonGameObject.SetActive(false);
         Time.timeScale = 0;
     }
@@ -100,6 +106,7 @@ public class GameController : MonoBehaviour
     {
         pauseGameScene.SetActive(false);
         OnGamePausedChangePauseStatus.Invoke(false);
+        gamePaused = false;
         pauseButtonGameObject.SetActive(true);
         Time.timeScale = 1;
     }
@@ -109,6 +116,16 @@ public class GameController : MonoBehaviour
         if (UseCoin(UpgradeBulletDamageCoinCost))
         {
             player.GetComponent<PlayerShoot>().IncreasePlayerBulletDamageOne();
+        }
+        UpdateCoinNum();
+    }
+
+    public void UpdateHealth()
+    {
+        if (UseCoin(UpgradeHealthCoinCost))
+        {
+            //player.GetComponent<PlayerShoot>().IncreasePlayerBulletDamageOne();
+            player.GetComponent<PlayerHealth>().AddCurrentHealth(1);
         }
         UpdateCoinNum();
     }
@@ -129,6 +146,11 @@ public class GameController : MonoBehaviour
     private void UpdateCoinNum()
     {
         coinCntText.text = "" + coinNum;
+    }
+
+    public bool getGamePausedStatus()
+    {
+        return gamePaused;
     }
 
     public void ExitGame()
